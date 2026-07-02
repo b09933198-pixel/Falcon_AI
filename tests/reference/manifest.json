@@ -1,0 +1,10 @@
+{
+    "dataset": "rsi_wilder",
+    "version": "1.0.0",
+    "indicator": "RSI",
+    "algorithm": "Wilder RSI",
+    "status": "verified",
+    "source": "Pending",
+    "created_by": "Falcon AI",
+    "notes": "Reference dataset for numerical validation."
+}
