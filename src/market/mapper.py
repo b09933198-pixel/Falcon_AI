@@ -3,11 +3,10 @@ Falcon AI
 
 Market Mapper
 
-Version:
-    1.0.0
+Version: 2.0.0
 """
 
-from src.models.candle import Candle
+from src.domain.models.candle import Candle
 
 
 class MarketMapper:
@@ -16,17 +15,14 @@ class MarketMapper:
     def to_candle(data):
 
         return Candle(
-
-            time=data[0],
-
-            open=data[1],
-
-            high=data[2],
-
-            low=data[3],
-
-            close=data[4],
-
-            volume=data[5],
-
+            timestamp=int(data[0]),
+            open=float(data[1]),
+            high=float(data[2]),
+            low=float(data[3]),
+            close=float(data[4]),
+            volume=float(data[5]),
+            quote_volume=float(data[7]),
+            trades=int(data[8]),
+            buy_volume=float(data[9]),
+            buy_quote_volume=float(data[10]),
         )
