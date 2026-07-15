@@ -1,0 +1,5 @@
+pytest
+requests
+mypy
+black
+isort
