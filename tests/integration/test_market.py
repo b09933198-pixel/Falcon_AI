@@ -1,70 +1,32 @@
 """
 Falcon AI
 
-Market Layer Test
+Enterprise Market Integration Test
 
-Version: 2.0.0
+Version: 3.0.0
 """
 
 from src.market.candles import CandleService
-from src.models import Candle
+from src.domain.models import Candle
 
 
-def main():
-
-    print("=" * 60)
-    print("MARKET LAYER TEST")
-    print("=" * 60)
-
+def test_market_layer_returns_enterprise_candles():
     service = CandleService()
 
     candles = service.get_klines(
-
         symbol="BTCUSDT",
         interval="1h",
-        limit=5
-
+        limit=5,
     )
 
-    if candles is None:
-
-        print("FAILED")
-        return
-
-    if len(candles) == 0:
-
-        print("FAILED")
-        print("No candles returned.")
-        return
+    assert candles is not None
+    assert len(candles) > 0
 
     first = candles[0]
 
-    if not isinstance(first, Candle):
+    assert isinstance(first, Candle)
 
-        print("FAILED")
-        print("Returned object is not Candle.")
-        print(type(first))
-        return
+    assert first.high >= first.low
+    assert first.low <= first.close <= first.high
 
-    print("SUCCESS")
-    print()
-
-    print("Count :", len(candles))
-    print("Type  :", type(first))
-
-    print()
-
-    print("Time   :", first.time)
-    print("Open   :", first.open)
-    print("High   :", first.high)
-    print("Low    :", first.low)
-    print("Close  :", first.close)
-    print("Volume :", first.volume)
-
-    print()
-
-    print(first)
-
-
-if __name__ == "__main__":
-    main()
+    assert first.timestamp >= 0

@@ -8,7 +8,7 @@ Falcon_AI
 
 ## Project Type
 
-Professional Market Analysis Engine
+Professional Market Analysis Platform
 
 ---
 
@@ -18,7 +18,7 @@ Falcon_AI is designed to analyze financial markets using professional quantitati
 
 The system is NOT an automated trading bot.
 
-Its responsibility is market analysis, signal generation, probability estimation, and decision support.
+Its responsibility is market analysis, analysis generation, probability estimation, and decision support.
 
 ---
 
@@ -33,12 +33,19 @@ Its responsibility is market analysis, signal generation, probability estimation
 - Momentum Analysis
 - Multi Timeframe Analysis
 - AI Assisted Analysis
+-  Explainable Decision Support
 
 ---
 
 ## Philosophy
 
 Quality over Speed.
+
+Evidence over Assumption.
+
+Architecture before Features.
+
+Explainability before Automation.
 
 Every module must be:
 
@@ -52,4 +59,4 @@ before considered complete.
 
 Falcon AI is not an indicator library.
 
-Falcon AI is a complete Market Analysis Operating System.
+Falcon AI is a complete Intelligent Trading Analysis System (ITAS) focused on professional market analysis, explainable reasoning, and human decision support.

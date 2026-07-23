@@ -1,5 +1,5 @@
 from src.analysis.smart_money import SwingDetectorEngine
-from src.models.candle import Candle
+from src.domain.models import Candle
 
 
 def candle(high: float, low: float):

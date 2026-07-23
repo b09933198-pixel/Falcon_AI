@@ -1,93 +1,52 @@
 """
 Falcon AI
 
-SMA Unit Test
+Enterprise SMA Test
 
-Version: 2.0.0
+Version: 3.0.0
 """
 
-from src.models import Candle
-from src.indicators import SMA
+from src.domain.models import Candle
+from src.analysis.indicators.trend.sma import SMA
 
 
 def candle(price: float):
-
     return Candle(
-
-        time=0,
-
+        timestamp=0,
         open=price,
-
         high=price,
-
         low=price,
-
         close=price,
-
-        volume=0,
-
+        volume=0.0,
+        quote_volume=0.0,
+        trades=0,
+        buy_volume=0.0,
+        buy_quote_volume=0.0,
     )
 
 
-def main():
-
-    print("=" * 60)
-    print("SMA UNIT TEST")
-    print("=" * 60)
-
+def test_sma_calculation():
     candles = [
-
         candle(10),
         candle(20),
         candle(30),
         candle(40),
-        candle(50)
-
+        candle(50),
     ]
 
-    sma = SMA()
+    indicator = SMA()
 
-    result = sma.calculate(
-
+    result = indicator.calculate(
         candles,
-
-        period=3
-
+        period=3,
     )
 
     expected = [
-
         None,
-
         None,
-
         20.0,
-
         30.0,
-
-        40.0
-
+        40.0,
     ]
 
-    print("Expected :", expected)
-    print("Result   :", result)
-
-    print()
-
-    if result == expected:
-
-        print("SUCCESS ✅")
-
-    else:
-
-        print("FAILED ❌")
-
-        print()
-
-        print("Expected :", expected)
-
-        print("Result   :", result)
-
-
-if __name__ == "__main__":
-    main()
+    assert result == expected

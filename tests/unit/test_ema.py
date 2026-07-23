@@ -1,110 +1,48 @@
 """
 Falcon AI
 
-EMA Unit Test
+Enterprise EMA Test
 
-Version: 2.0.0
+Version: 3.0.0
 """
 
-from src.models import Candle
-from src.indicators.ema import EMA
+from src.domain.models import Candle
+from src.analysis.indicators.trend.ema import EMA
 
 
-def make_candle(close):
-
+def candle(price: float):
     return Candle(
-
-        time=0,
-
-        open=close,
-
-        high=close,
-
-        low=close,
-
-        close=close,
-
-        volume=1,
-
+        timestamp=0,
+        open=price,
+        high=price,
+        low=price,
+        close=price,
+        volume=0.0,
+        quote_volume=0.0,
+        trades=0,
+        buy_volume=0.0,
+        buy_quote_volume=0.0,
     )
 
 
-def main():
-
-    print("=" * 60)
-    print("EMA UNIT TEST")
-    print("=" * 60)
-
-    closes = [10, 20, 30, 40, 50, 60]
-
+def test_ema_calculation():
     candles = [
-
-        make_candle(price)
-
-        for price in closes
-
+        candle(10),
+        candle(20),
+        candle(30),
+        candle(40),
+        candle(50),
     ]
 
-    ema = EMA()
+    indicator = EMA()
 
-    result = ema.calculate(
-
+    result = indicator.calculate(
         candles,
-
-        period=3
-
+        period=3,
     )
 
-    print("Result :")
-
-    for value in result:
-
-        print(value)
-
-    expected = [
-
-        None,
-
-        None,
-
-        20.0,
-
-        30.0,
-
-        40.0,
-
-        50.0
-
-    ]
-
-    success = True
-
-    for r, e in zip(result, expected):
-
-        if r is None and e is None:
-
-            continue
-
-        if abs(r - e) > 0.0001:
-
-            success = False
-
-            break
-
-    print()
-
-    if success:
-
-        print("SUCCESS ✅")
-
-    else:
-
-        print("FAILED ❌")
-
-        print("Expected:", expected)
-
-        print("Result  :", result)
-
-
-if __name__ == "__main__":
-    main()
+    assert result[0] is None
+    assert result[1] is None
+    assert result[2] == 20.0
+    assert result[3] is not None
+    assert result[4] is not None

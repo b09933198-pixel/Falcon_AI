@@ -1,65 +1,32 @@
 """
 Falcon AI
 
-Data Layer Test
+Enterprise Data Layer Integration Test
 
-Version: 2.1.0
+Version: 3.0.0
 """
 
 from src.data import DataManager
-from src.models import Candle
+from src.domain.models import Candle
 
 
-def main():
-
-    print("=" * 60)
-    print("DATA LAYER TEST")
-    print("=" * 60)
-
+def test_data_layer_returns_enterprise_candles():
     manager = DataManager()
 
     candles = manager.get_candles(
         symbol="BTCUSDT",
         interval="1h",
-        limit=5
+        limit=5,
     )
 
-    if candles is None:
-        print("FAILED")
-        print("Returned None")
-        return
-
-    if len(candles) == 0:
-        print("FAILED")
-        print("Empty candle list")
-        return
+    assert candles is not None
+    assert len(candles) > 0
 
     first = candles[0]
 
-    if not isinstance(first, Candle):
-        print("FAILED")
-        print("Invalid object:", type(first))
-        return
+    assert isinstance(first, Candle)
 
-    print("SUCCESS")
-    print()
+    assert first.high >= first.low
+    assert first.low <= first.close <= first.high
 
-    print("Count :", len(candles))
-    print("Type  :", type(first))
-
-    print()
-
-    print("Time   :", first.time)
-    print("Open   :", first.open)
-    print("High   :", first.high)
-    print("Low    :", first.low)
-    print("Close  :", first.close)
-    print("Volume :", first.volume)
-
-    print()
-
-    print(first)
-
-
-if __name__ == "__main__":
-    main()
+    assert first.timestamp >= 0

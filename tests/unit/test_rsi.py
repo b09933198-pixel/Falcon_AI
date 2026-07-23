@@ -1,50 +1,32 @@
 """
 Falcon AI
 
-RSI Unit Test
+Enterprise RSI Test
 
-Version: 1.0.0
+Version: 3.0.0
 """
 
-from src.models import Candle
-from src.indicators.rsi import RSI
+from src.domain.models import Candle
+from src.analysis.indicators.oscillator.rsi import RSI
 
 
-def candle(price):
-
+def candle(price: float):
     return Candle(
-
-        open_time=0,
-
-        open_price=price,
-
+        timestamp=0,
+        open=price,
         high=price,
-
         low=price,
-
         close=price,
-
-        volume=0,
-
-        quote_volume=0,
-
+        volume=0.0,
+        quote_volume=0.0,
         trades=0,
-
-        taker_buy_base=0,
-
-        taker_buy_quote=0
-
+        buy_volume=0.0,
+        buy_quote_volume=0.0,
     )
 
 
-def main():
-
-    print("=" * 60)
-    print("RSI UNIT TEST")
-    print("=" * 60)
-
+def test_rsi_calculation():
     closes = [
-
         44.34,
         44.09,
         44.15,
@@ -59,30 +41,17 @@ def main():
         46.03,
         45.61,
         46.28,
-        46.28
-
+        46.28,
     ]
 
     candles = [candle(x) for x in closes]
 
-    rsi = RSI()
+    indicator = RSI()
 
-    result = rsi.calculate(
-
+    result = indicator.calculate(
         candles,
-
-        period=14
-
+        period=14,
     )
 
-    print()
-
-    print(result)
-
-    print()
-
-    print("SUCCESS ✅")
-
-
-if __name__ == "__main__":
-    main()
+    assert len(result) == len(candles)
+    assert result[14] is not None

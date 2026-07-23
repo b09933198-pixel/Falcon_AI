@@ -42,5 +42,34 @@ Quality has priority over development speed.
 Rule 7
 
 Every mathematical model must be verified against an official or trusted reference before it is considered complete.
+---
 
-No approximation is accepted without validation.
+Rule 8
+
+One Module = One Responsibility.
+
+A module must never perform tasks outside its defined responsibility.
+
+---
+
+Rule 9
+
+Every architectural change requires a new ADR.
+
+No architectural modification may be made without documentation.
+
+---
+
+Rule 10
+
+Explainability is mandatory.
+
+Every analysis must be understandable by a human.
+
+---
+
+Rule 11
+
+No implementation may violate the approved Foundation.
+
+If a feature conflicts with the Foundation, the Foundation wins.

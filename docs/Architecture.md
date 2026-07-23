@@ -1,85 +1,168 @@
-Falcon AI Architecture
+# Falcon AI Architecture
 
-Version: 0.1
+Version: 1.0
 
----
-
-Vision
-
-Falcon AI is not an automated trading bot.
-
-Falcon AI is an Intelligent Trading Analysis Platform (ITAS) that analyzes market data, evaluates trading opportunities, explains its reasoning, learns from historical results, and continuously improves its analytical performance.
-
-The system never executes trades automatically.
+Status: Foundation Frozen
 
 ---
 
-Core Principles
+# Purpose
 
-- Quality over speed.
-- Explain every decision.
-- Every module has one responsibility.
-- Every change must be documented.
-- AI supports analysis, not replaces logic.
-- Long-term maintainability is more important than short-term features.
+This document defines the high-level architecture of Falcon AI.
 
----
+Falcon AI is an Intelligent Trading Analysis System (ITAS) focused on professional market analysis and decision support.
 
-System Layers
-
-Layer 1 — Data Collection
-
-Responsible for receiving market data from exchanges.
+It never executes trades automatically.
 
 ---
 
-Layer 2 — Market Analysis
+# Architecture Overview
 
-Responsible for technical analysis, structure detection, indicators, support/resistance, liquidity, and market context.
+Falcon AI is built as a layered, modular, and explainable architecture.
 
----
+Every layer has a single responsibility.
 
-Layer 3 — Signal Evaluation
-
-Combines multiple analyses and calculates the confidence score of each trading opportunity.
-
-Signals are recommendations only.
+Higher layers depend only on lower abstractions, never on implementation details.
 
 ---
 
-Layer 4 — AI Learning
+# Core Layers
 
-Learns from previous analyses and trading outcomes to improve future recommendations.
+## Layer 1 — Market Data
 
----
+Responsibilities:
 
-Layer 5 — Notification
+- Exchange communication
+- Candle collection
+- Symbol management
+- Timeframe management
+- Data validation
 
-Sends high-quality analysis and signals to Telegram.
+Output:
 
----
-
-Development Rules
-
-- No module may have multiple responsibilities.
-- No feature enters the project without evaluation.
-- Every architectural decision must be documented.
-- Simplicity is preferred over unnecessary complexity.
+Clean market data.
 
 ---
 
-Future Expansion
+## Layer 2 — Analysis
 
-The architecture must allow:
+Responsibilities:
 
-- Adding new exchanges.
-- Adding new timeframes.
-- Adding new indicators.
-- Adding AI models.
-- Adding new notification methods.
+- Technical Indicators
+- Smart Money Concepts
+- Market Structure
+- Trend Analysis
+- Volume Analysis
+- Feature Extraction
 
-Without rewriting the whole system.
+Output:
+
+Market features.
 
 ---
 
-End of Architecture v0.1
+## Layer 3 — Probability
+
+Responsibilities:
+
+- Rule evaluation
+- Rule fusion
+- Confidence estimation
+- Multi-rule analysis
+
+Output:
+
+Probability results.
+
+---
+
+## Layer 4 — Reasoning
+
+Responsibilities:
+
+- Explain every analytical result.
+- Convert probabilities into understandable reasons.
+
+Output:
+
+Human-readable explanations.
+
+---
+
+## Layer 5 — Risk
+
+Responsibilities:
+
+- Position sizing
+- Risk evaluation
+- Reward estimation
+
+Output:
+
+Risk profile.
+
+---
+
+## Layer 6 — Strategy
+
+Responsibilities:
+
+- Combine analysis
+- Combine probability
+- Combine reasoning
+- Produce decision support
+
+Output:
+
+Decision support.
+
+---
+
+## Layer 7 — Notification
+
+Responsibilities:
+
+- Prepare reports
+- Telegram integration
+- Human-readable output
+
+---
+
+## Layer 8 — Learning
+
+Responsibilities:
+
+- Learn from historical outcomes
+- Improve future analysis
+- Never bypass explainability
+- Learning must always be measurable.
+
+---
+
+# Design Principles
+
+- One Module = One Responsibility
+- Explainability First
+- Architecture Before Features
+- Test Before Trust
+- Quality Over Speed
+- Stable Core Domain
+
+---
+
+# References
+
+- FOUNDATION_v1.md
+- PROJECT_VISION.md
+- DEVELOPMENT_RULES.md
+- ADR documents
+
+---
+
+Architecture Rules
+
+- Core Domain is immutable.
+- Every new capability requires an ADR.
+- Foundation changes require architecture review.
+- 
+End of Architecture v1.0

@@ -2,7 +2,7 @@
 
 Version: 1.0
 
-Status: Frozen
+Status: Approved
 
 ---
 
@@ -48,7 +48,7 @@ Architecture.md
 
 DataFlow.md
 
-Modules.md
+MODULE_STATUS.md
 
 DEVELOPMENT_RULES.md
 
@@ -80,6 +80,15 @@ ADR/
 No new feature may be implemented before the Foundation is approved.
 
 Architecture changes require a new ADR.
+
+---
+
+Foundation Rules
+
+- The Core Domain is considered stable.
+- Explainability is mandatory.
+- Every new feature must pass Falcon Gate.
+- No implementation may violate the approved architecture.
 
 ---
 

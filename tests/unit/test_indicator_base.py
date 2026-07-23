@@ -1,32 +1,16 @@
 """
 Falcon AI
 
-Indicator Base Test
+Enterprise Indicator Base Test
 
-Version: 1.0.0
+Version: 3.0.0
 """
 
-from src.indicators.base import Indicator
+import pytest
+
+from src.analysis.indicators.base.indicator import Indicator
 
 
-def main():
-
-    print("=" * 60)
-    print("INDICATOR BASE TEST")
-    print("=" * 60)
-
-    try:
-
+def test_indicator_is_abstract():
+    with pytest.raises(TypeError):
         Indicator()
-
-        print("FAILED ❌")
-
-    except TypeError:
-
-        print("SUCCESS ✅")
-        print()
-        print("Abstract class works correctly.")
-
-
-if __name__ == "__main__":
-    main()

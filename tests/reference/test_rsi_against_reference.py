@@ -1,66 +1,42 @@
 """
 Falcon AI
 
-RSI Against Reference
+Enterprise RSI Reference Test
 
-Description:
-    Validates Falcon RSI implementation.
-
-Version:
-    2.0.0
+Version: 3.0.0
 """
 
-from src.models.candle import Candle
-from src.indicators.rsi import RSI
+from src.domain.models import Candle
+from src.analysis.indicators.oscillator.rsi import RSI
 
 from tests.reference.loader import ReferenceLoader
 
 
 def build_candles(rows):
-
     candles = []
 
     for i, row in enumerate(rows):
-
         close = float(row["Close"])
 
         candles.append(
-
             Candle(
-
-                open_time=i,
-
-                open_price=close,
-
+                timestamp=i,
+                open=close,
                 high=close,
-
                 low=close,
-
                 close=close,
-
                 volume=0,
-
                 quote_volume=0,
-
                 trades=0,
-
-                taker_buy_base=0,
-
-                taker_buy_quote=0,
-
+                buy_volume=0,
+                buy_quote_volume=0,
             )
-
         )
 
     return candles
 
 
-def main():
-
-    print("=" * 60)
-    print("RSI AGAINST REFERENCE")
-    print("=" * 60)
-
+def test_rsi_against_reference():
     rows = ReferenceLoader.load(
         "tests/reference/datasets/rsi_wilder.csv"
     )
@@ -71,20 +47,9 @@ def main():
 
     values = indicator.calculate(
         candles,
-        period=14
+        period=14,
     )
 
-    print()
-
-    print("Dataset :", len(rows))
-    print("Candles :", len(candles))
-    print("RSI     :", len(values))
-
-    print()
-
-    print("First RSI :", values[14])
-    print("Last RSI  :", values[-1])
-
-
-if __name__ == "__main__":
-    main()
+    assert len(values) == len(candles)
+    assert values[14] is not None
+    assert values[-1] is not None
