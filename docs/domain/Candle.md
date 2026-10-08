@@ -2,19 +2,39 @@
 
 ## Status
 
-Draft
+Frozen — Foundation v1
 
 ---
 
-# Purpose
+## Purpose
 
-The Candle entity is the core market data object used throughout Falcon_AI.
+The `Candle` entity is the core market data object used throughout
+Falcon AI.
 
-It represents one immutable OHLCV candle independently of any exchange.
+It represents one immutable OHLCV market candle independently of any
+exchange or infrastructure implementation.
 
 ---
 
-# Design Goals
+## Domain Responsibility
+
+`Candle` belongs to the Core Domain layer.
+
+It must remain independent from:
+
+- Exchanges
+- API clients
+- HTTP libraries
+- pandas
+- numpy
+- Storage
+- Infrastructure concerns
+
+The entity may only represent and validate market data.
+
+---
+
+## Design Goals
 
 - Immutable
 - Lightweight
@@ -26,116 +46,28 @@ It represents one immutable OHLCV candle independently of any exchange.
 
 ---
 
-# Fields
+## Fields
 
-timestamp
-
-open
-
-high
-
-low
-
-close
-
-volume
-
-quote_volume
-
-trades
-
-buy_volume
-
-buy_quote_volume
+| Field | Type | Description |
+|---|---|---|
+| timestamp | int | Candle timestamp |
+| open | float | Opening price |
+| high | float | Highest price |
+| low | float | Lowest price |
+| close | float | Closing price |
+| volume | float | Base asset volume |
+| quote_volume | float | Quote asset volume |
+| trades | int | Number of trades |
+| buy_volume | float | Buy-side base asset volume |
+| buy_quote_volume | float | Buy-side quote asset volume |
 
 ---
 
-# Validation Rules
+## Validation Rules
 
+The entity must enforce the following invariants.
+
+### Timestamp
+
+```text
 timestamp >= 0
-
-open >= 0
-
-high >= low
-
-low <= close <= high
-
-volume >= 0
-
-quote_volume >= 0
-
-trades >= 0
-
-buy_volume >= 0
-
-buy_quote_volume >= 0
-
----
-
-# Factory Methods
-
-from_api()
-
-from_dict()
-
----
-
-# Export Methods
-
-to_dict()
-
-to_tuple()
-
----
-
-# Representation
-
-repr()
-
----
-
-# Thread Safety
-
-Immutable
-
----
-
-# Performance
-
-Uses:
-
-- dataclass
-- slots
-- frozen
-
----
-
-# Dependencies
-
-None
-
-This entity belongs to the Domain layer.
-
-It must never import:
-
-- requests
-- api
-- pandas
-- numpy
-- exchange libraries
-
----
-
-# Used By
-
-Infrastructure
-
-Indicators
-
-Analysis
-
-AI
-
-Storage
-
-Testing
