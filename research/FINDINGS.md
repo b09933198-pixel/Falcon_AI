@@ -62,4 +62,16 @@ Tool validation (synthetic data, before the real run): constant volatility ->
   out-of-sample R2 0.36-0.43 and nothing passes; a planted structure effect ->
   only the planted feature passes; about 7 % false positives at p < 0.05
   over 180 null tests.
-Result: pending.
+Result (run 2026-10-11, criteria unchanged after seeing it):
+  V-1 PASSED. Out-of-sample R2 0.401 (BTCUSDT) and 0.441 (ETHUSDT); in-sample
+  0.605 / 0.647. Next-24-candle volatility is forecastable from past volatility
+  and time of day.
+  F-002 REJECTED. No (feature, strength) combination passed. Closest: age
+  (candles since the last confirmed swing): positive and significant on both
+  assets at both strengths (p = 0.0010, the floor with 1000 shifts), same sign
+  in 6/6 years on both, but out-of-sample gain only +0.0014 to +0.0027, below
+  the 0.005 bar (C3 failed). Real-looking but economically negligible; it may
+  reflect nonlinearity missed by the linear baseline rather than structure.
+  Not promoted. leg and ranging fail C1.
+  Limits: R2 is of log mean range, not profit; no fees; Binance spot data.
+  Raw output: research/results/structure_vol_1h.txt

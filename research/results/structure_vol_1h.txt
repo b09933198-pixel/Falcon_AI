@@ -1,0 +1,32 @@
+BTCUSDT,ETHUSDT 1h: horizon 24 candles, windows 24/168, 1000 shifts per test
+6 feature tests -> p must be < 0.0083 (0.05 / 6, Bonferroni)
+target = ln(mean candle range over the next candles); features use confirmed swings only
+
+BTCUSDT strength=5: 48904 rows, done in 72s
+BTCUSDT strength=12: 48904 rows, done in 78s
+ETHUSDT strength=5: 48904 rows, done in 82s
+ETHUSDT strength=12: 48891 rows, done in 99s
+
+======================================================================
+V-1  baseline: past volatility + time of day -> next volatility
+  BTCUSDT: R2 in-sample 0.605 | out-of-sample (last 30%) 0.401
+  ETHUSDT: R2 in-sample 0.647 | out-of-sample (last 30%) 0.441
+  verdict: volatility IS forecastable enough for risk sizing (needs out-of-sample R2 >= 0.1 on every asset)
+
+F-002  does structure add information beyond the baseline?
+  strength= 5 leg      | BTC corr -0.065 p=0.0020 yrs 6/6 oosgain +0.0017 | ETH corr -0.021 p=0.1668 yrs 4/6 oosgain -0.0016
+  strength= 5 age      | BTC corr +0.043 p=0.0010 yrs 6/6 oosgain +0.0014 | ETH corr +0.041 p=0.0010 yrs 6/6 oosgain +0.0016
+  strength= 5 ranging  | BTC corr -0.013 p=0.3167 yrs 5/6 oosgain +0.0002 | ETH corr -0.026 p=0.0509 yrs 4/6 oosgain +0.0001
+  strength=12 leg      | BTC corr -0.135 p=0.0120 yrs 6/6 oosgain +0.0063 | ETH corr -0.080 p=0.0150 yrs 5/6 oosgain -0.0052
+  strength=12 age      | BTC corr +0.045 p=0.0010 yrs 6/6 oosgain +0.0015 | ETH corr +0.063 p=0.0010 yrs 6/6 oosgain +0.0027
+  strength=12 ranging  | BTC corr -0.001 p=0.9361 yrs 3/6 oosgain -0.0002 | ETH corr +0.023 p=0.2208 yrs 4/6 oosgain -0.0002
+
+  strength= 5 leg      C1 p-value no | C2 years no | C3 out-of-sample gain no -> fail
+  strength= 5 age      C1 p-value ok | C2 years ok | C3 out-of-sample gain no -> fail
+  strength= 5 ranging  C1 p-value no | C2 years no | C3 out-of-sample gain no -> fail
+  strength=12 leg      C1 p-value no | C2 years ok | C3 out-of-sample gain no -> fail
+  strength=12 age      C1 p-value ok | C2 years ok | C3 out-of-sample gain no -> fail
+  strength=12 ranging  C1 p-value no | C2 years no | C3 out-of-sample gain no -> fail
+======================================================================
+RESULT F-002: no structure feature adds information beyond past volatility.
+DONE
