@@ -1,0 +1,21 @@
+BTCUSDT 1h: 7 segments, 50241 candles, 1000 shifts per test
+8 tests -> a result counts only if p < 0.0063 (0.05 / 8, Bonferroni)
+returns are in basis points (1 bp = 0.01%), entry = next open, no fees
+
+horizon 4 candles: unconditional mean forward return +1.65 bp (n=50213)
+  strength= 3 | bull n=15927 +2.14 bp | bear n=14447 +2.54 bp | diff -0.40 bp p=0.8641 | long/short -0.09 bp | years diff>0: 3/6 | 20s
+  strength= 5 | bull n=16201 +1.05 bp | bear n=14829 +2.94 bp | diff -1.89 bp p=0.4426 | long/short -0.86 bp | years diff>0: 4/6 | 20s
+  strength= 8 | bull n=15666 +0.80 bp | bear n=14850 +3.15 bp | diff -2.35 bp p=0.3696 | long/short -1.12 bp | years diff>0: 4/6 | 20s
+  strength=12 | bull n=15833 +1.09 bp | bear n=13861 +0.94 bp | diff +0.15 bp p=0.9540 | long/short +0.14 bp | years diff>0: 4/6 | 19s
+
+horizon 24 candles: unconditional mean forward return +9.67 bp (n=50073)
+  strength= 3 | bull n=15900 +4.69 bp | bear n=14390 +11.97 bp | diff -7.28 bp p=0.5175 | long/short -3.23 bp | years diff>0: 4/6 | 20s
+  strength= 5 | bull n=16174 +9.23 bp | bear n=14770 +16.63 bp | diff -7.40 bp p=0.5964 | long/short -3.11 bp | years diff>0: 3/6 | 20s
+  strength= 8 | bull n=15612 +6.03 bp | bear n=14819 +17.18 bp | diff -11.15 bp p=0.4276 | long/short -5.27 bp | years diff>0: 3/6 | 30s
+  strength=12 | bull n=15764 +8.35 bp | bear n=13831 +1.09 bp | diff +7.26 bp p=0.6214 | long/short +3.94 bp | years diff>0: 4/6 | 192s
+
+============================================================
+RESULT: no combination passes the corrected threshold.
+Reading: in this data, bullish/bearish structure does not separate
+the price that follows any better than chance.
+DONE

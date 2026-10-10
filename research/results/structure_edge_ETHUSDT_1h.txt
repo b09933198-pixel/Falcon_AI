@@ -1,0 +1,21 @@
+ETHUSDT 1h: 7 segments, 50241 candles, 1000 shifts per test
+8 tests -> a result counts only if p < 0.0063 (0.05 / 8, Bonferroni)
+returns are in basis points (1 bp = 0.01%), entry = next open, no fees
+
+horizon 4 candles: unconditional mean forward return +2.22 bp (n=50213)
+  strength= 3 | bull n=16123 +0.05 bp | bear n=15080 +3.17 bp | diff -3.12 bp p=0.3956 | long/short -1.51 bp | years diff>0: 4/6 | 27s
+  strength= 5 | bull n=16248 +0.70 bp | bear n=15011 +3.83 bp | diff -3.13 bp p=0.3636 | long/short -1.48 bp | years diff>0: 2/6 | 16s
+  strength= 8 | bull n=16405 +0.04 bp | bear n=14577 +1.88 bp | diff -1.84 bp p=0.6204 | long/short -0.86 bp | years diff>0: 3/6 | 16s
+  strength=12 | bull n=15443 +2.84 bp | bear n=14647 +1.54 bp | diff +1.30 bp p=0.7373 | long/short +0.71 bp | years diff>0: 4/6 | 16s
+
+horizon 24 candles: unconditional mean forward return +13.22 bp (n=50073)
+  strength= 3 | bull n=16084 +15.34 bp | bear n=15011 +18.38 bp | diff -3.05 bp p=0.8432 | long/short -0.94 bp | years diff>0: 2/6 | 16s
+  strength= 5 | bull n=16185 +10.96 bp | bear n=14968 +9.70 bp | diff +1.26 bp p=0.9341 | long/short +1.03 bp | years diff>0: 3/6 | 16s
+  strength= 8 | bull n=16346 +18.15 bp | bear n=14551 -1.03 bp | diff +19.18 bp p=0.2927 | long/short +10.09 bp | years diff>0: 4/6 | 16s
+  strength=12 | bull n=15403 +22.54 bp | bear n=14613 +8.65 bp | diff +13.90 bp p=0.4735 | long/short +7.36 bp | years diff>0: 5/6 | 15s
+
+============================================================
+RESULT: no combination passes the corrected threshold.
+Reading: in this data, bullish/bearish structure does not separate
+the price that follows any better than chance.
+DONE
