@@ -1,0 +1,35 @@
+probe of https://data.binance.vision/data/futures/um on 2026-10-12
+======================================================================
+BTCUSDT
+  funding (monthly): 81 of 86 found, first 2020-01, last 2026-09
+  sample funding: BTCUSDT-fundingRate-2026-08.csv, 94 rows
+    calc_time,funding_interval_hours,last_funding_rate
+    1785542400001,8,0.00004123
+    1785571200000,8,0.00003163
+    ...
+    1788192000001,8,0.00010000
+  metrics (daily, sampled on day 2 of each month): 74 of 82 found, first 2020-09-02, last 2026-10-02
+  sample metrics: BTCUSDT-metrics-2026-09-02.csv, 289 rows
+    create_time,symbol,sum_open_interest,sum_open_interest_value,count_toptrader_long_short_ratio,sum_toptrader_long_short_ratio,count_long_short_ratio,sum_taker_long_short_vol_ratio
+    2026-09-02 00:30:00,BTCUSDT,108279.0550000000000000,8362099064.2015000000000000,1.38537299,2.06685500,1.27964911,1.22786600
+    2026-09-02 01:50:00,BTCUSDT,108909.5900000000000000,8363276325.6900000000000000,1.34915843,2.01070500,1.27426403,0.62820400
+    ...
+    2026-09-02 23:50:00,BTCUSDT,107575.0320000000000000,8309683536.8285520000000000,1.29495467,1.97657700,1.21427236,1.06223500
+======================================================================
+ETHUSDT
+  funding (monthly): 81 of 86 found, first 2020-01, last 2026-09
+  sample funding: ETHUSDT-fundingRate-2026-08.csv, 94 rows
+    calc_time,funding_interval_hours,last_funding_rate
+    1785542400001,8,0.00006744
+    1785571200000,8,0.00002308
+    ...
+    1788192000001,8,0.00007702
+  metrics (daily, sampled on day 2 of each month): 59 of 82 found, first 2021-12-02, last 2026-10-02
+  sample metrics: ETHUSDT-metrics-2026-09-02.csv, 289 rows
+    create_time,symbol,sum_open_interest,sum_open_interest_value,count_toptrader_long_short_ratio,sum_toptrader_long_short_ratio,count_long_short_ratio,sum_taker_long_short_vol_ratio
+    2026-09-02 00:05:00,ETHUSDT,2327114.5870000000000000,5628372238.4765950000000000,1.65789474,1.54595300,2.72708950,1.35931000
+    2026-09-02 00:35:00,ETHUSDT,2326168.4710000000000000,5601914165.0384245000000000,1.66474833,1.54378600,2.73316802,0.50303200
+    ...
+    2026-09-02 23:20:00,ETHUSDT,2303937.0270000000000000,5490936610.6590640000000000,1.68261871,1.57211000,2.74561938,1.29117300
+======================================================================
+DONE
