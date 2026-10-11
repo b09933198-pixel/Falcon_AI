@@ -1,0 +1,62 @@
+BTCUSDT,ETHUSDT 1h: walk-forward, train >= 2y, refit every 90d, horizon 24
+naive references get the same bias correction; training rows overlapping the test period are purged
+
+BTCUSDT: done in 15s
+ETHUSDT: done in 15s
+
+======================================================================
+BTCUSDT: 48904 rows, 31384 out-of-sample rows in 15 folds
+  MSE model 0.1319 | persistence 0.1769 | ewma 0.1509
+  ratio model / best naive (ewma): 0.874   (needs <= 0.97)
+  calibration slope: 0.906   (needs 0.9..1.1)
+  deciles (predicted range -> realised range, in basis points):
+     1:    33.5 ->    38.5
+     2:    43.1 ->    46.8
+     3:    48.6 ->    50.8
+     4:    53.5 ->    54.3
+     5:    57.7 ->    59.8
+     6:    62.3 ->    61.7
+     7:    68.3 ->    70.1
+     8:    74.4 ->    75.9
+     9:    83.6 ->    83.8
+    10:   110.8 ->   108.8
+  top/bottom realised ratio 2.83 (needs >= 1.5), rising steps 9/9 (needs >= 8)
+  90% upper bound held 89.7% of the time (needs 86-94%)
+  years (model MSE vs best naive MSE):
+    2023: 0.1528 vs 0.1773 -> model
+    2024: 0.1218 vs 0.1418 -> model
+    2025: 0.1282 vs 0.1433 -> model
+    2026: 0.1271 vs 0.1436 -> model
+  year wins 4/4 (needs >= 75% and >= 3 years)
+  W1 beats naive: ok | W2 calibration: ok | W3 resolution: ok | W4 yearly wins: ok | W5 90% bound: ok
+
+======================================================================
+ETHUSDT: 48904 rows, 31384 out-of-sample rows in 15 folds
+  MSE model 0.1048 | persistence 0.1347 | ewma 0.1155
+  ratio model / best naive (ewma): 0.907   (needs <= 0.97)
+  calibration slope: 0.934   (needs 0.9..1.1)
+  deciles (predicted range -> realised range, in basis points):
+     1:    42.3 ->    47.9
+     2:    57.3 ->    58.9
+     3:    65.6 ->    68.8
+     4:    72.3 ->    73.8
+     5:    78.5 ->    80.4
+     6:    84.9 ->    87.9
+     7:    92.3 ->    95.6
+     8:   101.6 ->   103.8
+     9:   115.2 ->   116.3
+    10:   148.9 ->   144.1
+  top/bottom realised ratio 3.01 (needs >= 1.5), rising steps 9/9 (needs >= 8)
+  90% upper bound held 89.7% of the time (needs 86-94%)
+  years (model MSE vs best naive MSE):
+    2023: 0.1075 vs 0.1176 -> model
+    2024: 0.0993 vs 0.1112 -> model
+    2025: 0.0994 vs 0.1090 -> model
+    2026: 0.1162 vs 0.1277 -> model
+  year wins 4/4 (needs >= 75% and >= 3 years)
+  W1 beats naive: ok | W2 calibration: ok | W3 resolution: ok | W4 yearly wins: ok | W5 90% bound: ok
+
+======================================================================
+SUMMARY (all assets must pass): W1 beats naive: ok | W2 calibration: ok | W3 resolution: ok | W4 yearly wins: ok | W5 90% bound: ok
+RESULT F-003: the volatility forecaster is validated for risk use on this data.
+DONE

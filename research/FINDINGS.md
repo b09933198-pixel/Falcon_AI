@@ -107,4 +107,18 @@ Disclosures:
     This was done before any real-data run of this test.
 Tool validation (synthetic data): constant volatility -> fails W2 and W3;
   GARCH volatility, three seeds -> passes all five.
-Result: pending.
+Result (run 2026-10-11, criteria unchanged after seeing it):
+  F-003 PASSED: all five criteria on both assets (BTCUSDT / ETHUSDT).
+  W1 model/best-naive MSE ratio 0.874 / 0.907 (needs <= 0.97).
+  W2 calibration slope 0.906 / 0.934 (needs 0.90-1.10; BTC is close to the edge).
+  W3 top/bottom decile realised range 2.83 / 3.01, 9 of 9 rising steps (the
+     original 2.0 bar would also have passed).
+  W4 model beat the best naive in 4/4 test years on both assets (2023-2026).
+  W5 the 90 % upper bound held 89.7 % / 89.7 %.
+  Reading: usable as an INPUT for stop distance, position size and no-trade
+  filters; the decile spread is real. Single forecasts are noisy (log-scale MSE
+  about 0.10-0.13, roughly +-40 %), and the forecast is slightly over-dispersed
+  (slope below 1: low deciles under-predicted, top decile over-predicted).
+  Limits: 1h only; test period 2023-2026; candle range is not the same thing as
+  stop-out risk; no fees; Binance spot data, not Toobit.
+  Raw output: research/results/vol_forecast_1h.txt
