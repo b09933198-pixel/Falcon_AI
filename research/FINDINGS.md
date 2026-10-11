@@ -161,4 +161,14 @@ Tool validation (synthetic data): no effect, 30 seeds x 4 rules -> 7 of 120 test
   (5.8 %) at p < 0.05 (5 % expected); a planted drift after the signal is
   detected for breakout and pullback in 5 of 5 seeds and for sweep in 3 of 5;
   a signal that peeks at the future is caught.
-Result: pending.
+Result (run 2026-10-12, criteria unchanged after seeing it):
+  F-004 REJECTED: none of the seven variants passed; every variant failed C1.
+  Smallest p across the 14 tests: 0.037 (S6 compression breakout on BTCUSDT,
+  edge +26.6 bp, 6/6 years positive), but ETHUSDT gave +10.4 bp with p = 0.58.
+  Consistent with chance over 14 tests; not promoted.
+  S1/S2 sweeps: edges -1.3/-1.9 bp (strength 5) and +5.4/+8.8 bp (strength 12),
+  p 0.58-0.87. S3-S5 sessions: edges 0.2-9.7 bp, p 0.07-0.96 (largest: US
+  session on ETHUSDT, +9.7 bp, p = 0.067, BTCUSDT +5.3 bp, p = 0.16).
+  S7 pullback vs 4h trend: +10.9 bp (BTC, p = 0.43) and -3.3 bp (ETH, p = 0.84).
+  Limits: 1h only; before fees; the 12 bp cost is a placeholder; two assets.
+  Raw output: research/results/price_action_1h.txt

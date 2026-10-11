@@ -1,0 +1,29 @@
+BTCUSDT,ETHUSDT 1h: 7 variants, p must be < 0.0071 (0.05 / 7, Bonferroni)
+edges in bp before fees; assumed round-trip cost 12 bp; 2000 block sign flips (weekly blocks)
+
+S1 sweep strength 5        BTC events  1480 edge   -1.25bp hit 53.2% p=0.8711 yrs 3/6 (1s)
+S1 sweep strength 5        ETH events  1459 edge   -1.91bp hit 53.5% p=0.8531 yrs 3/6 (1s)
+S2 sweep strength 12       BTC events   639 edge   +5.42bp hit 56.5% p=0.6122 yrs 3/6 (1s)
+S2 sweep strength 12       ETH events   619 edge   +8.79bp hit 55.1% p=0.5802 yrs 4/6 (1s)
+S3 session Asia            BTC events  2088 edge   +0.16bp hit 51.1% p=0.9550 yrs 3/6 (1s)
+S3 session Asia            ETH events  2088 edge   +1.11bp hit 52.2% p=0.7636 yrs 4/6 (1s)
+S4 session Europe          BTC events  2091 edge   +4.22bp hit 49.9% p=0.2654 yrs 4/6 (1s)
+S4 session Europe          ETH events  2091 edge   +1.95bp hit 49.7% p=0.6947 yrs 4/6 (1s)
+S5 session US              BTC events  2094 edge   +5.27bp hit 51.4% p=0.1574 yrs 4/6 (1s)
+S5 session US              ETH events  2094 edge   +9.72bp hit 52.3% p=0.0670 yrs 5/6 (1s)
+S6 compression breakout    BTC events   880 edge  +26.64bp hit 51.4% p=0.0370 yrs 6/6 (1s)
+S6 compression breakout    ETH events   879 edge  +10.44bp hit 49.5% p=0.5802 yrs 4/6 (1s)
+S7 pullback vs 4h trend    BTC events  7438 edge  +10.93bp hit 51.9% p=0.4308 yrs 4/6 (3s)
+S7 pullback vs 4h trend    ETH events  7947 edge   -3.27bp hit 49.6% p=0.8396 yrs 4/6 (3s)
+
+======================================================================
+S1 sweep strength 5        C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+S2 sweep strength 12       C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+S3 session Asia            C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+S4 session Europe          C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+S5 session US              C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+S6 compression breakout    C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+S7 pullback vs 4h trend    C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+======================================================================
+RESULT F-004: none of the pre-registered price-action signals has a tradable edge.
+DONE
