@@ -122,3 +122,43 @@ Result (run 2026-10-11, criteria unchanged after seeing it):
   Limits: 1h only; test period 2023-2026; candle range is not the same thing as
   stop-out risk; no fees; Binance spot data, not Toobit.
   Raw output: research/results/vol_forecast_1h.txt
+
+## F-004 - Do simple price-action signals carry a directional edge?
+
+Date: 2026-10-11
+Status: PRE-REGISTERED. The criteria below were fixed and committed BEFORE the first run.
+Question: do seven rule-based price-action signals predict direction well enough
+to beat trading costs?
+Data: Binance spot 1h candles, BTCUSDT and ETHUSDT, 2021-01 to 2026-09
+(segments of at least 400 candles; gaps are never crossed).
+Convention: decision at the close of candle i, entry at the open of i+1, exit at
+the close of i+hold; returns in bp, before fees. Swings only after confirmation.
+Variants (all two-sided: the sign of the mean edge shows the direction that works):
+  S1  liquidity sweep, strength 5: a candle trades through the latest confirmed
+      swing low (high) and closes back above (below) it -> long (short); each
+      swing counts once; hold 24 candles
+  S2  the same with strength 12
+  S3  session Asia: long from the open at 00:00 UTC to the close at 08:00 (hold 8)
+  S4  session Europe: 08:00 - 16:00 UTC (hold 8)
+  S5  session US: 16:00 - 24:00 UTC (hold 8)
+  S6  compression breakout: mean candle range of the last 24 candles within the
+      lowest 20 % of its last 720 values at i-1, and candle i closes beyond the
+      high (long) or low (short) of the previous 24 candles; hold 24
+  S7  pullback against the 4h structure trend (4h bars, strength 3, completed
+      bars only; 1h strength 5): 4h BULLISH while 1h BEARISH -> long, the mirror
+      -> short; hold 24
+Significance: block sign-flip test, weekly blocks, 2000 flips (two-sided).
+Criteria (a variant passes only if ALL hold):
+  C0  at least 200 events on each asset
+  C1  p < 0.0071 (0.05 / 7) on one asset and the same sign with p < 0.05 on the other
+  C2  the sign holds in >= 70 % of usable years (>= 3 years with >= 20 events) on both assets
+  C3  the mean edge in its own direction is >= 12 bp on both assets
+Disclosures:
+  - The 12 bp round-trip cost is a PLACEHOLDER; the real Toobit fees are not
+    confirmed yet. A higher real cost makes C3 stricter, never looser.
+  - Prediction before the run: most likely nothing passes.
+Tool validation (synthetic data): no effect, 30 seeds x 4 rules -> 7 of 120 tests
+  (5.8 %) at p < 0.05 (5 % expected); a planted drift after the signal is
+  detected for breakout and pullback in 5 of 5 seeds and for sweep in 3 of 5;
+  a signal that peeks at the future is caught.
+Result: pending.
