@@ -75,3 +75,36 @@ Result (run 2026-10-11, criteria unchanged after seeing it):
   Not promoted. leg and ranging fail C1.
   Limits: R2 is of log mean range, not profit; no fees; Binance spot data.
   Raw output: research/results/structure_vol_1h.txt
+
+## F-003 - Is the volatility forecaster good enough for risk use?
+
+Date: 2026-10-11
+Status: PRE-REGISTERED. The criteria below were fixed and committed BEFORE the first run.
+Question: does the forecaster in src/analysis/volatility/forecaster.py (past
+volatility over 24 and 168 candles + time of day -> average candle range of the
+next 24 candles, least squares in log space) hold up walk-forward, and are its
+expected value and 90 % upper bound trustworthy enough to size stops and positions?
+Data: Binance spot 1h candles, BTCUSDT and ETHUSDT (segments of at least 400 candles).
+Method: walk-forward. Expanding training window, at least 2 years before the
+  first test row, refit every 90 days, scored only on rows after the window.
+  Training rows whose target period reaches into the test period are purged.
+  Naive references: ln(mean range of the last 24 candles) and an EWMA with a
+  24-candle half-life, each shifted by its mean training error.
+Criteria (ALL must hold on BOTH assets):
+  W1  model MSE <= 0.97 x the best naive MSE
+  W2  calibration slope of realised on predicted (log space) within 0.90 .. 1.10
+  W3  decile resolution: realised range of the top predicted decile >= 1.5 x the
+      bottom decile, and at least 8 of 9 decile steps rising
+  W4  model beats the best naive in >= 75 % of test years (>= 3 years, >= 2000 rows each)
+  W5  the 90 % upper bound holds between 86 % and 94 % of the time
+Disclosures:
+  - V-1 results (out-of-sample R2 about 0.40) were known when these criteria were
+    set, so W1 is expected to pass; W2-W5 measure calibration, the upper bound and
+    yearly stability, which V-1 did not.
+  - W3's ratio was lowered from 2.0 to 1.5 after a synthetic control showed
+    ratios of 1.8-2.0. 2.0 was an arbitrary number; 1.5 means stop distances
+    can differ by half between quiet and wild markets, enough to size on.
+    This was done before any real-data run of this test.
+Tool validation (synthetic data): constant volatility -> fails W2 and W3;
+  GARCH volatility, three seeds -> passes all five.
+Result: pending.
