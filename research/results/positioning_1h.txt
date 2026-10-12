@@ -1,0 +1,34 @@
+BTCUSDT,ETHUSDT 1h: 7 variants, p must be < 0.0071 (0.05 / 7, Bonferroni)
+edges in bp before fees; assumed round-trip cost 12 bp; 2000 block sign flips (weekly blocks)
+discovery: holding period ends by 2025-10-01; the hold-out is shown only for variants that pass C0-C3
+
+D1 funding extreme           BTC events  7353 edge  -22.03bp hit 48.5% p=0.0800 yrs 4/5 (1s)
+D1 funding extreme           ETH events  7622 edge  -14.52bp hit 47.6% p=0.4388 yrs 4/5 (1s)
+D2 open-interest surge       BTC events  6687 edge  +13.92bp hit 47.3% p=0.2939 yrs 2/5 (2s)
+D2 open-interest surge       ETH events  6247 edge  -11.53bp hit 43.9% p=0.5202 yrs 3/4 (1s)
+D3 open-interest flush       BTC events  6938 edge   -4.20bp hit 46.8% p=0.7361 yrs 3/5 (1s)
+D3 open-interest flush       ETH events  6352 edge  +11.06bp hit 48.8% p=0.4938 yrs 3/4 (1s)
+D4 futures taker flow        BTC events  6584 edge   +1.88bp hit 49.2% p=0.2929 yrs 4/5 (4s)
+D4 futures taker flow        ETH events  5758 edge   -2.07bp hit 47.4% p=0.3918 yrs 3/4 (3s)
+D5 spot taker-buy share      BTC events  7127 edge   +0.44bp hit 45.3% p=0.8336 yrs 2/5 (2s)
+D5 spot taker-buy share      ETH events  7375 edge   +1.90bp hit 47.6% p=0.4448 yrs 3/5 (2s)
+D6 crowd long/short ratio    BTC events  9969 edge  -51.34bp hit 47.6% p=0.0005 yrs 5/5 (1s)
+D6 crowd long/short ratio    ETH events  8994 edge  -53.11bp hit 48.7% p=0.0055 yrs 4/4 (1s)
+D7 top-trader long/short     BTC events  9096 edge   -7.19bp hit 50.4% p=0.5637 yrs 3/4 (1s)
+D7 top-trader long/short     ETH events  9135 edge   -7.62bp hit 48.0% p=0.5762 yrs 2/3 (1s)
+
+======================================================================
+D1 funding extreme           C0 events ok | C1 p-value no | C2 years ok | C3 beats cost ok -> fail
+D2 open-interest surge       C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+D3 open-interest flush       C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+D4 futures taker flow        C0 events ok | C1 p-value no | C2 years ok | C3 beats cost no -> fail
+D5 spot taker-buy share      C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+D6 crowd long/short ratio    C0 events ok | C1 p-value ok | C2 years ok | C3 beats cost ok -> PASS
+D7 top-trader long/short     C0 events ok | C1 p-value no | C2 years no | C3 beats cost no -> fail
+======================================================================
+HOLD-OUT D6 crowd long/short ratio:
+  BTC: events 2541 edge -25.41bp hit 51.3% p=0.2299
+  ETH: events 1989 edge +7.58bp hit 55.2% p=0.7881
+  C4 hold-out confirms: no
+RESULT F-005: some variants passed discovery but none was confirmed in the hold-out.
+DONE

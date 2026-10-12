@@ -172,3 +172,23 @@ Result (run 2026-10-12, criteria unchanged after seeing it):
   S7 pullback vs 4h trend: +10.9 bp (BTC, p = 0.43) and -3.3 bp (ETH, p = 0.84).
   Limits: 1h only; before fees; the 12 bp cost is a placeholder; two assets.
   Raw output: research/results/price_action_1h.txt
+
+### F-005 verdict (2026-10-13): REJECTED — no confirmed candidate
+
+Run: `python tools/check_positioning.py BTCUSDT,ETHUSDT 2000`, output in research/results/positioning_1h.txt.
+Criteria applied exactly as pre-registered; nothing changed after the run.
+
+- D1, D2, D3, D4, D5, D7 failed C1 (no p < 0.05/7 with a same-sign p < 0.05 on the other asset).
+  D4 (futures taker flow) and D5 (spot taker-buy share) are near 0 bp on both assets.
+- D6 (global long/short account ratio, hold 24h) passed discovery C0-C3: BTC -51.3 bp (p=0.0005, years 5/5),
+  ETH -53.1 bp (p=0.0055, years 4/4), i.e. contrarian to the crowd. Hold-out: BTC -25.4 bp (p=0.23),
+  ETH +7.6 bp (p=0.79). ETH's sign flipped, so C4 failed. Not confirmed.
+
+Reading: D6 is neither established nor excluded. It was 1 of 7 variants, in the third family of direction
+tests (cumulative multiplicity not corrected); the hold-out is ~1 year of heavily overlapping 24h windows;
+hit rate < 50% with a large mean edge suggests a few large moves drive it. It is NOT to be used for any
+product claim.
+Only valid follow-up: ONE new pre-registered hypothesis (contrarian to the crowd ratio extreme, hold 24h)
+evaluated on data arriving after 2026-10-13, with a pre-fixed minimum number of months and events.
+Direction research on price and positioning data is paused; next product direction: risk/context analyst
+built on the validated volatility forecaster (F-003).
