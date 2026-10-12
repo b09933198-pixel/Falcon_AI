@@ -1,0 +1,70 @@
+4178 files to fetch for BTCUSDT,ETHUSDT (6 at a time)
+  100/4178 done, 23s
+  200/4178 done, 55s
+  300/4178 done, 89s
+  400/4178 done, 113s
+  500/4178 done, 131s
+  600/4178 done, 149s
+  700/4178 done, 167s
+  800/4178 done, 184s
+  900/4178 done, 200s
+  1000/4178 done, 216s
+  1100/4178 done, 235s
+  1200/4178 done, 252s
+  1300/4178 done, 268s
+  1400/4178 done, 285s
+  1500/4178 done, 300s
+  1600/4178 done, 317s
+  1700/4178 done, 333s
+  1800/4178 done, 350s
+  1900/4178 done, 365s
+  2000/4178 done, 381s
+  2100/4178 done, 400s
+  2200/4178 done, 418s
+  2300/4178 done, 435s
+  2400/4178 done, 449s
+  2500/4178 done, 465s
+  2600/4178 done, 484s
+  2700/4178 done, 503s
+  2800/4178 done, 519s
+  2900/4178 done, 537s
+  3000/4178 done, 556s
+  3100/4178 done, 572s
+  3200/4178 done, 590s
+  3300/4178 done, 605s
+  3400/4178 done, 622s
+  3500/4178 done, 638s
+  3600/4178 done, 653s
+  3700/4178 done, 670s
+  3800/4178 done, 686s
+  3900/4178 done, 703s
+  4000/4178 done, 720s
+  4100/4178 done, 737s
+
+stored 4168, missing 10, problems 0, 750s
+
+======================================================================
+BTCUSDT
+  metrics: 641894 rows over 2231 days, 2020-09-01 00:00 .. 2026-10-10 23:55
+           timestamps off the 5-minute grid: 0
+           days without exactly 288 rows: 71
+             2020-09-27: 284 rows
+             2020-10-22: 278 rows
+             2020-11-15: 277 rows
+             2020-11-21: 280 rows
+             2021-01-20: 271 rows
+  funding: 7395 rows, 2020-01-01 00:00 .. 2026-09-30 16:00, intervals (hours): {8: 7395}
+  files that do not exist: {'funding': 4}
+ETHUSDT
+  metrics: 511060 rows over 1775 days, 2021-12-01 00:00 .. 2026-10-10 23:55
+           timestamps off the 5-minute grid: 0
+           days without exactly 288 rows: 9
+             2021-12-04: 285 rows
+             2021-12-15: 287 rows
+             2021-12-24: 287 rows
+             2021-12-29: 287 rows
+             2021-12-31: 287 rows
+  funding: 7395 rows, 2020-01-01 00:00 .. 2026-09-30 16:00, intervals (hours): {8: 7395}
+  files that do not exist: {'funding': 4}
+======================================================================
+DONE

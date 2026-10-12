@@ -192,3 +192,28 @@ Only valid follow-up: ONE new pre-registered hypothesis (contrarian to the crowd
 evaluated on data arriving after 2026-10-13, with a pre-fixed minimum number of months and events.
 Direction research on price and positioning data is paused; next product direction: risk/context analyst
 built on the validated volatility forecaster (F-003).
+
+### F-005 pre-registration (text committed AFTER the run — disclosure)
+
+DISCLOSURE: the planned order (commit the pre-registration, then run) was NOT followed. The single real run
+happened first; this entry was committed afterwards (2026-10-13). What supports that nothing was tuned: the
+criteria below were fixed in the header and constants of tools/check_positioning.py (md5 537f5a25, verified on
+the phone before the run); the run was the first and only one on real data; no criterion was changed. This
+evidence lives in the conversation, not in git history. The verdict above is negative, so post-hoc bias could
+not have produced a false positive.
+
+Question: do funding, open interest, long/short ratios, taker buy/sell flow or spot taker-buy share predict
+direction of BTCUSDT/ETHUSDT 1h by more than costs?
+Convention: decision at close of candle i, entry at open of i+1, exit at close of i+horizon, bp before fees.
+A 5-min metrics row stamped T is usable only when T + 5 min <= decision time; staleness 30 min (metrics),
+9 h (funding); percentile window 2160 h (>= 1000 valid), mid-rank ties.
+Variants: D1 funding top/bottom 10% (h24); D2 OI 24h change top 20% x sign of past 24h return (h24);
+D3 same, bottom 20% (h24); D4 mean ln taker buy/sell ratio 4h top/bottom 10% (h4); D5 spot taker-buy share 4h
+top/bottom 10% (h4); D6 ln global long/short account ratio top/bottom 10% (h24); D7 ln top-trader ratio
+top/bottom 10% (h24).
+Split: discovery = holding period ended by 2025-10-01; hold-out only for variants passing C0-C3.
+Criteria: block sign-flip (weekly blocks, 2000 flips). C0 >= 200 events per asset; C1 p < 0.05/7 on one asset and
+same sign p < 0.05 on the other; C2 sign in >= 70% of usable years (>= 3 years with >= 20 events), both assets;
+C3 |edge| >= 12 bp (placeholder cost) on both, same sign; C4 hold-out same sign on both and |edge| >= 6 bp.
+Caveats: 12 bp is a placeholder; third family of direction tests, cumulative multiplicity not corrected.
+Tool validation (synthetic, sandbox): null data -> nothing passes; planted taker-flow effect -> D4 passes C0-C4.
