@@ -217,3 +217,30 @@ same sign p < 0.05 on the other; C2 sign in >= 70% of usable years (>= 3 years w
 C3 |edge| >= 12 bp (placeholder cost) on both, same sign; C4 hold-out same sign on both and |edge| >= 6 bp.
 Caveats: 12 bp is a placeholder; third family of direction tests, cumulative multiplicity not corrected.
 Tool validation (synthetic, sandbox): null data -> nothing passes; planted taker-flow effect -> D4 passes C0-C4.
+
+---
+
+## F-006 — Risk / context analyst: are the adverse-excursion quantiles calibrated?
+
+**Status:** PRE-REGISTERED (written and committed BEFORE any code or real run, 2026-10-13)
+
+**Question.** Do the q50 / q80 / q95 adverse-excursion quantiles (docs/RISK_ANALYST_SPEC.md) have the stated
+coverage out of sample, and does the risk level carry information, on BTCUSDT and ETHUSDT 1h?
+
+**Method.** Walk-forward as F-003. Target E as defined in the spec. Model: F-003 expected range times the
+empirical quantile of E / expected_range on training data. Baseline B: the unconditional empirical quantile
+of E over the trailing 365 days. Coverage = share of events with E <= predicted quantile.
+
+**Criteria (fixed; all must hold for the product claim):**
+- R1 pooled out-of-sample coverage on both assets: q50 in [47%, 53%], q80 in [77%, 83%], q95 in [92%, 98%].
+- R2 coverage by risk level (levels with >= 300 events): within +-6 pp of nominal for q80 and q95, both assets.
+- R3 by calendar year (years with >= 1000 events): q95 coverage in [90%, 99%], both assets.
+- R4 median realized E strictly increases low < normal < high < extreme, both assets.
+- R5 pinball loss at q80 and q95 is lower than baseline B on both assets.
+
+**Disclosures.** No direction claim, so no multiple-testing family: one model, one set of criteria. Overlapping
+24h windows make events dependent, so coverage tolerances are wide enough for that and are not significance
+tests. Coverage is measured on the same data F-003 was developed on (2023-2026 walk-forward); fresh forward
+data must be accumulated before real use. Prior: R1/R4/R5 likely hold (F-003 W-criteria passed); R2/R3
+are the real risk (regime shifts).
+**Verdict:** pending.
