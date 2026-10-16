@@ -314,3 +314,40 @@ q95 is the reliable number (91.9-97.8% in every level/half cell, both assets). q
 in 2023-24 and not afterwards, so it must be presented with that caveat. This is calibration of a risk range, not
 a direction claim. Forward data is required before real use: the next step is a forward log that stores every
 published risk sheet and its realised outcome, with a monthly calibration report.
+
+---
+
+## F-008 — Forward test of the risk sheet (live, out-of-sample)
+
+**Status:** PRE-REGISTERED (written and committed BEFORE any code or any forward sheet, 2026-10-17)
+
+**Question.** Does the F-007 risk sheet (docs/RISK_ANALYST_SPEC.md; per-level ratio quantiles) keep its
+calibration on data that did not exist when the model was designed?
+
+**Design.**
+- Every hourly close, for BTCUSDT and ETHUSDT 1h, the tool stores one sheet: decision time, expected range,
+  q50/q80/q95 of E, trailing rank and risk level, model id (code commit + fit date). Sheets are written to an
+  append-only log BEFORE their outcome exists; the outcome E is filled in only when the 24 following candles are
+  complete and contiguous. Sheets whose window crosses a data gap are marked void, never repaired.
+- Model: the F-007 code frozen at a recorded commit, fitted on all history up to the start date, refitted every
+  90 days on data before the refit date (purge of 24 candles). No parameter, threshold or code change during the
+  test; a bug fix restarts the test and is disclosed.
+- Baseline B: trailing 365-day unconditional quantile of E, as in F-006/F-007.
+
+**Evaluation date.** Not before 120 days AND >= 2000 completed sheets per asset after the start. The monthly
+report before that is descriptive only and decides nothing.
+
+**Criteria (fixed; all on both assets, completed sheets only):**
+- F1 pooled q95 coverage in [90%, 99%]
+- F2 pooled q80 coverage in [72%, 88%]
+- F3 pooled q50 coverage in [40%, 60%]
+- F4 for every risk level with >= 300 completed sheets: q95 coverage >= 89%
+- F5 pinball loss at q80 and q95 lower than baseline B
+
+**Disclosures.** Hourly sheets overlap (24h windows), so 120 days is roughly 120 independent windows: the
+standard error of q95 coverage is about 2 pp and of q80 about 3.6 pp. The tolerances are therefore wider than in
+F-006/F-007 and can only expose GROSS miscalibration; a pass does not prove fine calibration, and a pass says
+nothing about direction. F-007 itself was designed after F-006 on the same history (disclosed there), which is
+the reason a forward test is required. Prior: F1 likely holds (q95 was the stable number); F2 is the most likely
+to fail (q80 was ~5 pp optimistic on BTC in 2023-24).
+**Verdict:** pending (earliest evaluation date: 120 days after the first forward sheet).
