@@ -295,3 +295,22 @@ all F-006 thresholds are kept unchanged, and R6 below is stricter. Forward data 
 **Prior:** R2 likely improves (it is what the change targets); R6 is the real risk because half-period
 cells are smaller and noisier. If F-007 fails, the honest product is q95 + risk level only (see F-006 reading).
 **Verdict:** pending.
+
+### F-007 verdict (2026-10-16): PASSED R1-R6 on both assets (conditional)
+
+Run: `python tools/check_excursion_v2.py BTCUSDT,ETHUSDT 1h` (tool committed in b3367c1 BEFORE the run, criteria
+in fe51359), output in research/results/excursion_v2_1h.txt. Criteria applied exactly as pre-registered.
+
+- R1 pooled coverage ok: BTC q50/q80/q95 = 47.3/77.7/94.8%, ETH 50.0/79.1/94.4% (BTC q50 and q80 sit at the lower edge).
+- R2 by risk level ok (worst gap: ETH extreme q80 84.1%, 4.1 pp; BTC extreme q95 92.2%).
+- R3 by year ok (q95 coverage BTC 93.4-96.9%, ETH 93.4-96.0%).
+- R4 monotone medians ok (BTC low 175 -> extreme 406 bp; ETH 226 -> 507 bp).
+- R5 beats baseline B at q80 and q95 on both assets.
+- R6 both halves ok (BTC before 2025: q80 coverage ~75% in low/normal/high, gap up to 5.1 pp of the allowed 6;
+  from 2025: ~80%).
+
+Reading: weaker evidence than a clean pass, because F-007 was designed after F-006 failed on the same data.
+q95 is the reliable number (91.9-97.8% in every level/half cell, both assets). q80 was ~5 pp optimistic on BTC
+in 2023-24 and not afterwards, so it must be presented with that caveat. This is calibration of a risk range, not
+a direction claim. Forward data is required before real use: the next step is a forward log that stores every
+published risk sheet and its realised outcome, with a monthly calibration report.

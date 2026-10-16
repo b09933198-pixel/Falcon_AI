@@ -1,0 +1,70 @@
+BTCUSDT,ETHUSDT 1h: walk-forward, train >= 2y, refit every 90d, horizon 24
+E = largest move from the next open, either direction, within the next 24 candles; quantiles q50/q80/q95
+
+BTCUSDT: done in 32s
+ETHUSDT: done in 33s
+
+======================================================================
+BTCUSDT: 48904 rows, 31384 out-of-sample rows in 15 folds
+  pooled coverage (model | baseline B):
+    q50:  47.3% |  51.6%   (needs 47-53%)
+    q80:  77.7% |  81.3%   (needs 77-83%)
+    q95:  94.8% |  95.4%   (needs 92-98%)
+  by risk level (events, median E in bp, q80 coverage, q95 coverage):
+    low        9195    175.3   77.9%   95.4%
+    normal    14709    224.3   77.4%   94.4%
+    high       6107    305.1   77.3%   95.6%
+    extreme    1373    405.9   81.9%   92.2%
+  q95 coverage by year (needs 90-99% when >= 1000 events):
+    2023:   7312 events   93.4%
+    2024:   8784 events   93.8%
+    2025:   8760 events   96.9%
+    2026:   6528 events   95.0%
+  by half and risk level (events, q80 coverage, q95 coverage):
+    before 2025  low        3861   75.1%   93.1%
+    before 2025  normal     7885   75.3%   93.8%
+    before 2025  high       3523   74.9%   94.1%
+    before 2025  extreme     827   83.0%   92.4%
+    from 2025    low        5334   80.0%   97.0%
+    from 2025    normal     6824   79.9%   95.0%
+    from 2025    high       2584   80.5%   97.8%
+    from 2025    extreme     546   80.4%   91.9%
+  pinball loss in bp (model vs baseline B):
+    q80: 59.310 vs 63.780 -> model
+    q95: 29.071 vs 31.154 -> model
+  R1 pooled coverage: ok | R2 by risk level: ok | R3 by year: ok | R4 level monotone: ok | R5 beats baseline: ok | R6 both halves: ok
+
+======================================================================
+ETHUSDT: 48904 rows, 31384 out-of-sample rows in 15 folds
+  pooled coverage (model | baseline B):
+    q50:  50.0% |  51.6%   (needs 47-53%)
+    q80:  79.1% |  80.7%   (needs 77-83%)
+    q95:  94.4% |  95.0%   (needs 92-98%)
+  by risk level (events, median E in bp, q80 coverage, q95 coverage):
+    low        9236    225.8   78.5%   94.1%
+    normal    14018    311.7   78.5%   94.1%
+    high       6440    384.6   79.8%   95.7%
+    extreme    1690    506.7   84.1%   93.9%
+  q95 coverage by year (needs 90-99% when >= 1000 events):
+    2023:   7312 events   94.3%
+    2024:   8784 events   93.4%
+    2025:   8760 events   94.4%
+    2026:   6528 events   96.0%
+  by half and risk level (events, q80 coverage, q95 coverage):
+    before 2025  low        4435   75.7%   92.7%
+    before 2025  normal     6838   78.7%   93.5%
+    before 2025  high       3786   79.6%   95.7%
+    before 2025  extreme    1037   85.4%   93.5%
+    from 2025    low        4801   81.1%   95.3%
+    from 2025    normal     7180   78.2%   94.8%
+    from 2025    high       2654   80.0%   95.7%
+    from 2025    extreme     653   81.9%   94.5%
+  pinball loss in bp (model vs baseline B):
+    q80: 78.951 vs 86.225 -> model
+    q95: 39.912 vs 44.140 -> model
+  R1 pooled coverage: ok | R2 by risk level: ok | R3 by year: ok | R4 level monotone: ok | R5 beats baseline: ok | R6 both halves: ok
+
+======================================================================
+SUMMARY (all assets must pass): R1 pooled coverage: ok | R2 by risk level: ok | R3 by year: ok | R4 level monotone: ok | R5 beats baseline: ok | R6 both halves: ok
+RESULT F-007: the per-level risk sheet is calibrated on this data; forward data is still needed before real use.
+DONE
