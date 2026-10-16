@@ -121,6 +121,62 @@ def trailing_ranks(
     return out
 
 
+def level_ratio_quantiles(
+    excursions: Sequence[float],
+    expected: Sequence[float],
+    ranks: Sequence[Optional[float]],
+    quantiles: Sequence[float] = QUANTILES,
+    min_rows: int = 300,
+) -> List[List[float]]:
+    """Ratio quantiles E / expected_range per risk level (index 0 = low .. 3 = extreme).
+
+    Rows without a rank are ignored. A level with fewer than `min_rows` rows uses the
+    quantiles of all ranked rows instead (F-007).
+    """
+
+    if not len(excursions) == len(expected) == len(ranks):
+        raise VolatilityError("series must have the same length")
+
+    groups: List[List[float]] = [[] for _ in RISK_LEVELS]
+    pooled: List[float] = []
+
+    for e, x, r in zip(excursions, expected, ranks):
+
+        if r is None or x <= 0:
+            continue
+
+        ratio = e / x
+        pooled.append(ratio)
+        groups[_level_of(r)].append(ratio)
+
+    if len(pooled) < 200:
+        raise VolatilityError("need at least 200 ranked training rows")
+
+    pooled.sort()
+    fallback = [_quantile(pooled, q) for q in quantiles]
+
+    out: List[List[float]] = []
+
+    for group in groups:
+
+        if len(group) < min_rows:
+            out.append(list(fallback))
+        else:
+            group.sort()
+            out.append([_quantile(group, q) for q in quantiles])
+
+    return out
+
+
+def _level_of(rank: float) -> int:
+
+    for k, bound in enumerate(RISK_BOUNDS):
+        if rank < bound:
+            return k
+
+    return len(RISK_BOUNDS)
+
+
 def risk_level(rank: float) -> str:
     """low (< 25 %), normal (25-75 %), high (75-95 %), extreme (>= 95 %)."""
 

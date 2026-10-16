@@ -26,7 +26,12 @@ from datetime import datetime, timezone
 from typing import Dict, List, Sequence
 
 from src.analysis.volatility import BASE_FEATURES, VolatilityTable
-from src.analysis.volatility.excursion import QUANTILES, ExcursionModel, trailing_ranks
+from src.analysis.volatility.excursion import (
+    QUANTILES,
+    ExcursionModel,
+    level_ratio_quantiles,
+    trailing_ranks,
+)
 from src.analysis.volatility.forecaster import _quantile
 
 
@@ -156,6 +161,89 @@ def walk_forward_excursion(
     )
 
     return ExcursionResult(out_ts, out_e, out_expected, out_q, baseline, ranks, folds)
+
+
+def walk_forward_levels(
+    table: VolatilityTable,
+    excursions: Sequence[float],
+    interval_ms: int,
+    horizon: int = 24,
+    min_train_rows: int = 17_520,
+    refit_rows: int = 2_160,
+    rank_window: int = 8_760,
+    quantiles: Sequence[float] = QUANTILES,
+    min_level_rows: int = 300,
+) -> ExcursionResult:
+    """F-007: like walk_forward_excursion, but the ratio quantiles are estimated per risk level.
+
+    At every refit the model predicts ln(expected range) for all rows up to the end of the fold;
+    the trailing rank of that series defines each row's risk level. Training rows (purged) fit the
+    per-level ratio quantiles; test rows use the level of their own (causal) rank.
+    """
+
+    n = len(table)
+
+    if len(excursions) != n:
+        raise ValueError("excursions must align with the table rows")
+
+    if min_train_rows < 2000 or refit_rows < 1:
+        raise ValueError("min_train_rows must be >= 2000 and refit_rows >= 1")
+
+    if n <= min_train_rows:
+        raise ValueError("not enough rows for a walk-forward test")
+
+    stamps = table.timestamps
+    horizon_ms = horizon * interval_ms
+    min_valid = min(2000, rank_window)
+
+    out_ts: List[int] = []
+    out_e: List[float] = []
+    out_expected: List[float] = []
+    out_q: Dict[float, List[float]] = {q: [] for q in quantiles}
+    out_ranks: List[float] = []
+    folds = 0
+
+    start = min_train_rows
+
+    while start < n:
+
+        stop = min(start + refit_rows, n)
+        cutoff = bisect_left(stamps, stamps[start] - horizon_ms)
+
+        model = ExcursionModel(interval_ms, horizon, quantiles)
+        model.fit_rows(_slice(table, 0, cutoff), table.y[:cutoff], list(excursions[:cutoff]))
+
+        predicted_all = model.volatility.predict_log_rows(_slice(table, 0, stop))
+        expected_all = model.expected_from_log(predicted_all)
+        ranks_all = trailing_ranks(predicted_all, rank_window, min_valid)
+
+        test_ranks = ranks_all[start:stop]
+
+        if any(r is None for r in test_ranks):
+            raise ValueError("risk-level history too short")
+
+        ratios = level_ratio_quantiles(
+            excursions[:cutoff], expected_all[:cutoff], ranks_all[:cutoff], quantiles, min_level_rows
+        )
+
+        out_ts.extend(stamps[start:stop])
+        out_e.extend(excursions[start:stop])
+        out_expected.extend(expected_all[start:stop])
+        out_ranks.extend(test_ranks)
+
+        for j, q in enumerate(quantiles):
+            out_q[q].extend(
+                x * ratios[level_index(r)][j] for x, r in zip(expected_all[start:stop], test_ranks)
+            )
+
+        folds += 1
+        start = stop
+
+    baseline = baseline_quantiles(
+        stamps, excursions, min_train_rows, horizon_ms, quantiles, rank_window, min_rows=min_valid
+    )
+
+    return ExcursionResult(out_ts, out_e, out_expected, out_q, baseline, out_ranks, folds)
 
 
 # ----------------------------------------------------------------------
