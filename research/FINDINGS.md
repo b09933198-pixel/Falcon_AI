@@ -351,3 +351,17 @@ nothing about direction. F-007 itself was designed after F-006 on the same histo
 the reason a forward test is required. Prior: F1 likely holds (q95 was the stable number); F2 is the most likely
 to fail (q80 was ~5 pp optimistic on BTC in 2023-24).
 **Verdict:** pending (earliest evaluation date: 120 days after the first forward sheet).
+
+### F-008 amendment (2026-10-17): data sources — written before any sheet existed
+
+F-008 did not name the data source. Facts found afterwards: the live Binance endpoints are not reachable from the
+author's location (api.binance.com: no answer; data-api.binance.vision: HTTP 451, restricted location); only the
+data.binance.vision archives are. Live candles therefore come from Toobit spot market data
+(https://api.toobit.com/quote/v1/klines, BTCUSDT and ETHUSDT, 1h, COMPLETED candles only; the forming candle is
+dropped). The model is fitted on Binance spot history (archives, through 2026-09-30) and later refits use stored
+Toobit candles after that date; sheets, their risk-level history after 2026-09-30 and their outcomes are measured
+on Toobit candles. So F-008 additionally tests transfer from Binance-trained parameters to Toobit prices. This is a
+clarification of an unspecified item, not a change to any criterion F1-F5, the evaluation date or the freeze rule.
+Integrity rules in code (src/forward/store.py): candles are never overwritten (mismatches are counted), a sheet whose
+outcome is already knowable is refused as late, a sheet is written once, an outcome window with a hole makes the
+sheet void. Tool for the daily run and the report follow in the next commit; no sheet exists before that.
