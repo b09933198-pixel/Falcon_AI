@@ -1,0 +1,52 @@
+BTCUSDT,ETHUSDT 1h: walk-forward, train >= 2y, refit every 90d, horizon 24
+E = largest move from the next open, either direction, within the next 24 candles; quantiles q50/q80/q95
+
+BTCUSDT: done in 24s
+ETHUSDT: done in 26s
+
+======================================================================
+BTCUSDT: 48904 rows, 31384 out-of-sample rows in 15 folds
+  pooled coverage (model | baseline B):
+    q50:  48.4% |  51.6%   (needs 47-53%)
+    q80:  78.6% |  81.3%   (needs 77-83%)
+    q95:  95.1% |  95.4%   (needs 92-98%)
+  by risk level (events, median E in bp, q80 coverage, q95 coverage):
+    low        9319    175.0   72.3%   92.6%
+    normal    14761    224.9   80.5%   95.9%
+    high       5978    307.7   81.9%   96.4%
+    extreme    1326    407.5   87.5%   97.5%
+  q95 coverage by year (needs 90-99% when >= 1000 events):
+    2023:   7312 events   93.0%
+    2024:   8784 events   95.1%
+    2025:   8760 events   96.5%
+    2026:   6528 events   95.5%
+  pinball loss in bp (model vs baseline B):
+    q80: 59.497 vs 63.780 -> model
+    q95: 29.360 vs 31.154 -> model
+  R1 pooled coverage: ok | R2 by risk level: NO | R3 by year: ok | R4 level monotone: ok | R5 beats baseline: ok
+
+======================================================================
+ETHUSDT: 48904 rows, 31384 out-of-sample rows in 15 folds
+  pooled coverage (model | baseline B):
+    q50:  50.5% |  51.6%   (needs 47-53%)
+    q80:  79.7% |  80.7%   (needs 77-83%)
+    q95:  94.5% |  95.0%   (needs 92-98%)
+  by risk level (events, median E in bp, q80 coverage, q95 coverage):
+    low        9354    225.6   74.5%   91.4%
+    normal    14124    313.4   79.9%   95.2%
+    high       6275    387.4   85.3%   97.2%
+    extreme    1631    509.0   85.8%   96.8%
+  q95 coverage by year (needs 90-99% when >= 1000 events):
+    2023:   7312 events   93.5%
+    2024:   8784 events   94.7%
+    2025:   8760 events   94.9%
+    2026:   6528 events   95.1%
+  pinball loss in bp (model vs baseline B):
+    q80: 79.697 vs 86.225 -> model
+    q95: 40.657 vs 44.140 -> model
+  R1 pooled coverage: ok | R2 by risk level: ok | R3 by year: ok | R4 level monotone: ok | R5 beats baseline: ok
+
+======================================================================
+SUMMARY (all assets must pass): R1 pooled coverage: ok | R2 by risk level: NO | R3 by year: ok | R4 level monotone: ok | R5 beats baseline: ok
+RESULT F-006: NOT validated; the failed criteria above say what is wrong.
+DONE

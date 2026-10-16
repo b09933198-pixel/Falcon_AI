@@ -244,3 +244,23 @@ tests. Coverage is measured on the same data F-003 was developed on (2023-2026 w
 data must be accumulated before real use. Prior: R1/R4/R5 likely hold (F-003 W-criteria passed); R2/R3
 are the real risk (regime shifts).
 **Verdict:** pending.
+
+### F-006 verdict (2026-10-16): NOT VALIDATED (R2 failed on BTC)
+
+Run: `python tools/check_excursion.py BTCUSDT,ETHUSDT 1h` (tool committed in 2131c87 BEFORE the run), output in
+research/results/excursion_1h.txt. Criteria applied exactly as pre-registered.
+
+- R1 pooled coverage ok on both: BTC q50/q80/q95 = 48.4/78.6/95.1%, ETH 50.5/79.7/94.5%.
+- R2 by risk level: BTC FAIL (low level q80 coverage 72.3%, extreme level q80 87.5%, tolerance +-6 pp);
+  ETH ok but at the edge (low 74.5%, high 85.3%, extreme 85.8% for q80).
+- R3 by year ok (q95 coverage 93.0-96.5% BTC, 93.5-95.1% ETH).
+- R4 monotone medians ok on both (BTC low 175 -> extreme 408 bp; ETH 226 -> 509 bp).
+- R5 beats baseline B ok on both at q80 and q95.
+
+Reading: the single global ratio multiplier does not hold across risk levels: quantiles are too narrow in calm
+regimes (q80 coverage 72-75% in the low level on both assets) and too wide in wild regimes. q95 stayed within
+91.4-97.5% in every level. The BTC extreme-level miss is probably noise (1326 overlapping events ~ 55
+independent windows); the low-level miss is not (both assets). The product claim "calibrated within every
+risk level" is NOT established; the pooled claim and the q95 level claim hold on this data.
+Next: F-007, ratio quantiles estimated per risk level on training data only. Designed AFTER seeing F-006 on
+the same data (disclosed); criteria to be fixed and committed before any code; forward data needed before use.
