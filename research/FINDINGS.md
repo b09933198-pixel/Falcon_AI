@@ -264,3 +264,34 @@ independent windows); the low-level miss is not (both assets). The product claim
 risk level" is NOT established; the pooled claim and the q95 level claim hold on this data.
 Next: F-007, ratio quantiles estimated per risk level on training data only. Designed AFTER seeing F-006 on
 the same data (disclosed); criteria to be fixed and committed before any code; forward data needed before use.
+
+---
+
+## F-007 — Risk sheet v2: excursion ratio quantiles per risk level
+
+**Status:** PRE-REGISTERED (written and committed BEFORE any code or run, 2026-10-16)
+
+**Why this exists.** F-006 failed R2 on BTC: one global multiplier E/expected_range gave q80 coverage of
+72-75% in the low risk level and 85-88% in the high/extreme levels (both assets). F-007 estimates the ratio
+quantiles separately per risk level.
+
+**DISCLOSURE: designed AFTER seeing F-006 results on the same 2023-2026 data.** The idea (condition the ratio
+on the risk level) comes from that failure, so a pass here is weaker evidence than a clean pre-registered
+pass. Compensations: it adds no tuned parameter (four per-level quantile sets estimated on training rows only),
+all F-006 thresholds are kept unchanged, and R6 below is stricter. Forward data is still required before use.
+
+**Change vs F-006 (nothing else changes):**
+- Risk level of a row = trailing rank (window 8760 rows, >= 2000 valid) of the predicted ln(expected range):
+  low < 0.25, normal < 0.75, high < 0.95, extreme >= 0.95.
+- Training: ratio quantiles q50/q80/q95 of E / expected_range per level, from purged training rows that have a
+  defined rank; a level with < 300 training rows falls back to the global ratio quantiles.
+- Test rows use their own level (rank is causal). Walk-forward, purge, refit schedule, baseline B: as F-006.
+
+**Criteria (fixed):** R1-R5 exactly as in F-006 (same thresholds, both assets), plus
+- R6 R2 holds separately in each half of the test period (decisions before 2025-01-01 and from 2025-01-01),
+  on both assets, for every level with >= 300 events in that half (+-6 pp for q80 and q95).
+
+**Verdict rule:** all of R1-R6 on both assets. A fail is recorded; the criteria are not loosened.
+**Prior:** R2 likely improves (it is what the change targets); R6 is the real risk because half-period
+cells are smaller and noisier. If F-007 fails, the honest product is q95 + risk level only (see F-006 reading).
+**Verdict:** pending.
