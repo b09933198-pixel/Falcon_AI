@@ -365,3 +365,16 @@ clarification of an unspecified item, not a change to any criterion F1-F5, the e
 Integrity rules in code (src/forward/store.py): candles are never overwritten (mismatches are counted), a sheet whose
 outcome is already knowable is refused as late, a sheet is written once, an outcome window with a hole makes the
 sheet void. Tool for the daily run and the report follow in the next commit; no sheet exists before that.
+
+### F-008 amendment 2 (2026-10-17): batch logging — written before any sheet existed
+
+Sheets are published by a daily batch (tools/forward_log.py), not in real time. A run publishes one sheet for each of
+the last 24 closed candles. A sheet can therefore be created up to 23 hours after its decision close, when part of its
+outcome window is already observable to the logger. Why this does not change the sheet values: a sheet is computed
+only from candles up to its own decision (tested: tests/validation/test_forward.py,
+test_a_sheet_never_uses_anything_after_its_decision), and all 24 hours of each run are logged, so no sheet is selected.
+Why it is still weaker than real-time logging: the logger could in principle have chosen which hours to log. Compensations:
+sheets whose full outcome window is already closed are refused (never backfilled); a sheet is written once and never
+edited; the sheet table is exported to the repository and committed after each run, so the git history timestamps when
+each sheet existed. Hours in days without a run are simply missing (not backfilled); the report must show the logged
+share of hours. No criterion F1-F5, evaluation date or freeze rule changes.
