@@ -378,3 +378,16 @@ sheets whose full outcome window is already closed are refused (never backfilled
 edited; the sheet table is exported to the repository and committed after each run, so the git history timestamps when
 each sheet existed. Hours in days without a run are simply missing (not backfilled); the report must show the logged
 share of hours. No criterion F1-F5, evaluation date or freeze rule changes.
+
+### F-008 amendment 3 (2026-10-17): report definitions — written before any outcome existed
+
+The criteria text left three points open; the report (tools/forward_report.py) fixes them as follows, before any
+sheet has an outcome. No threshold, date or freeze rule changes.
+- "120 days" = from the first sheet's decision to the decision of the newest COMPLETED sheet.
+- F1-F5 are judged on each asset separately, pooled over risk levels, and must hold on BOTH assets. F4 applies per
+  asset to every level with >= 300 completed sheets.
+- Baseline B for F5 is computed on the merged candles (archive + stored Toobit candles) with the same rule as
+  F-006/F-007: trailing 8760 rows of E whose outcome was already known at the decision time. A completed sheet whose
+  decision time is not among those rows is excluded from F5 and counted in the report. The report also recomputes
+  every outcome from the stored candles and prints any difference.
+- Before the evaluation date the report prints "DESCRIPTIVE ONLY" and no verdict.
