@@ -391,3 +391,53 @@ sheet has an outcome. No threshold, date or freeze rule changes.
   decision time is not among those rows is excluded from F5 and counted in the report. The report also recomputes
   every outcome from the stored candles and prints any difference.
 - Before the evaluation date the report prints "DESCRIPTIVE ONLY" and no verdict.
+
+## F-009 — Strategy lab: rule-based direction strategies, Toobit futures costs
+
+**Status:** PRE-REGISTERED (written and committed BEFORE any strategy code and before any hold-out result, 2026-10-18)
+
+**Question.** Does any of the pre-listed rule-based strategies have a direction edge on BTCUSDT/ETHUSDT 1h that
+survives realistic futures costs on data that was never used to build it?
+
+**Strategies this round (8, fixed):** S01 trendline break, S05 double top / double bottom, S10 RSI, S12 EMA cross,
+S13 support/resistance, S14 Donchian breakout, S15 volatility squeeze breakout, S16 liquidity sweep.
+Not tested this round (need a separate registration with their own test count): trendline touch, V pattern,
+head-and-shoulders, flags, falling/rising wedges, cup and handle, Fibonacci retracement.
+Each strategy is ONE exact rule with textbook default parameters (RSI 14, EMA 20/50, Donchian 20, Bollinger 20/2,
+zigzag pivots for patterns). The rule document (docs/STRATEGIES_F009.md) is committed in its own commit BEFORE the
+hold-out run. No parameter is tuned on any data. A rule that cannot be made exact is dropped from the list before the run
+and reported as "not testable", never changed afterwards.
+
+**Data.** Binance spot 1h archive, BTCUSDT and ETHUSDT. Development part: up to 2024-12-31 23:00 UTC, used only to
+check that code runs (unit tests on synthetic data; no performance number is computed on it). Hold-out:
+2025-01-01 00:00 to 2026-09-30 23:00 UTC, seen exactly ONCE by one run of all strategies; every result, passing or
+failing, is stored in research/results/ and reported.
+
+**Trades.** Signal at a candle close, entry at the next open, long and short, no overlapping trades per strategy and
+symbol. Costs: taker fee 0.06% per side (author's Toobit rate), slippage 0.02% per side (assumption), funding from the
+stored funding history. Result is also printed at 0.5x and 2x costs as sensitivity; the gate uses the base case.
+
+**Gate A (fixed 1:1):** stop = target = 2 x ATR(14) at entry, timeout 48 candles at market.
+**Gate B (natural):** the strategy's own stop and target as written in its rule text.
+
+**Test unit:** strategy x gate, BTC and ETH pooled, long and short pooled. M = 2 x 8 = 16 tests,
+alpha = 0.05 / 16 (one-sided).
+
+**Pass conditions (all, both gates):**
+- at least 200 trades on the hold-out;
+- win rate >= 60%;
+- mean net R per trade > 0 after costs;
+- one-sided test against break-even gives p < alpha (A: exact binomial test of the win rate against the cost-adjusted
+  break-even win rate; B: one-sided t-test of the mean net R).
+A strategy that fails any condition is never shown and never sends a signal. Fewer than 200 trades = "unproven", not "failed".
+
+**After a pass:** 120-day live forward test under the F-008 integrity rules (logged before the outcome, exported to git).
+Telegram signals carry the hold-out win rate and the live count; if the live result later violates the gate, the strategy
+is switched off and the reason is published.
+
+**Disclosures.** Costs make the break-even win rate of gate A roughly 60% (1h stop about 0.8% of price, round-trip cost
+0.16%); with 200 trades and alpha = 0.05/16 a win rate of roughly 67-69% is needed. Prior: most likely no strategy
+passes; zero passes is a valid result and means no signal is sent. Trades overlap in time, so p-values are somewhat
+optimistic. Slippage is an assumption. Hold-out is Binance spot, live data is Toobit. The author chose to cut the list
+to 8 strategies and the 60% rule; the effect of the cut on required win rate is small.
+**Verdict:** pending.
