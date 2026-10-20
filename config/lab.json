@@ -1,0 +1,10 @@
+{
+  "symbols": ["BTCUSDT", "ETHUSDT"],
+  "timeframes": ["1h"],
+  "holdout_start_utc": "2025-01-01 00:00",
+  "taker_fee": 0.0006,
+  "slippage": 0.0002,
+  "family_alpha": 0.05,
+  "min_trades": 200,
+  "min_win_rate": 0.60
+}
