@@ -441,3 +441,14 @@ passes; zero passes is a valid result and means no signal is sent. Trades overla
 optimistic. Slippage is an assumption. Hold-out is Binance spot, live data is Toobit. The author chose to cut the list
 to 8 strategies and the 60% rule; the effect of the cut on required win rate is small.
 **Verdict:** pending.
+
+### F-009 verdict (2026-10-20): NOT VALIDATED — no strategy passed
+
+One look at the hold-out, run on committed code (commit bdc05b3): 1h, BTCUSDT + ETHUSDT, 2025-01-01 00:00 to
+2026-09-30 23:00 UTC, M = 16, alpha = 0.05/16, costs taker 0.06% + slippage 0.02% per side plus funding.
+Result: PASSED: none. Under the registered rule no strategy x gate sends a signal.
+Full table (all 16 rows, sensitivity at 0.5x and 2x costs, skipped counters): research/results/f009_holdout_1h.txt;
+every trade: research/results/f009_trades_1h.csv.
+Seen in the screen output: double top / bottom under gate B had 150 trades (below the 200 minimum) and is "unproven",
+not "failed"; every other row is FAILED or unproven in the file. No criterion, rule or parameter was changed before or
+after the run. The hold-out has been seen; a second look at 1h needs a new registration.
