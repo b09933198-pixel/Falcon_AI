@@ -452,3 +452,31 @@ every trade: research/results/f009_trades_1h.csv.
 Seen in the screen output: double top / bottom under gate B had 150 trades (below the 200 minimum) and is "unproven",
 not "failed"; every other row is FAILED or unproven in the file. No criterion, rule or parameter was changed before or
 after the run. The hold-out has been seen; a second look at 1h needs a new registration.
+
+## F-010 — Strategy lab, round 2: the same eight strategies on 4h
+
+**Status:** PRE-REGISTERED (written and committed BEFORE any 4h strategy result exists, 2026-10-21)
+
+**Why.** F-009 (1h) passed nothing; net R was slightly negative and close to zero before costs, so costs decided.
+Round-trip cost is a smaller share of the stop on 4h. Daily (1d) is not tested: over about 5.75 years each strategy
+would have far fewer than the 200-trade minimum and could only end "unproven". 15m is not tested: costs are roughly
+40% of the stop (break-even win rate near 70%) and it needs a separate archive.
+
+**Everything except the data window is identical to F-009:** the eight strategies and exact rules
+(docs/STRATEGIES_F009.md, unchanged), gate A (1:1, 2 x ATR, timeout 48) and gate B (natural), costs (taker 0.06% +
+slippage 0.02% per side + funding), pass conditions (at least 200 trades; win rate >= 60%; mean net R > 0; one-sided
+test against break-even p < alpha). 4h candles are built from the 1h archive (UTC-aligned, complete buckets only).
+
+**Data and single look.** Binance 1h archive aggregated to 4h, BTCUSDT and ETHUSDT, 2021-01-01 00:00 to
+2026-09-30 23:00 UTC. There is no development/hold-out split: no performance number of these strategies on 4h has been
+computed on any data, so the whole period is the single look (the first 200 candles of each continuous segment are
+warm-up). One run of all strategies, results stored in research/results/, every row reported, nothing changed afterwards.
+
+**Tests.** M = 2 gates x 8 strategies = 16, alpha = 0.05 / 16 (one-sided).
+
+**Disclosures.** (1) 2025-01 to 2026-09 is the same market whose 1h results were seen in F-009; 4h results there are not
+independent of it, the new information comes mostly from 2021-2024. (2) With break-even near 55% on gate A and 200
+trades, a win rate of roughly 64-65% is needed. (3) BTC and ETH are pooled and correlated, trades overlap, so p-values
+are somewhat optimistic. (4) Prior: most likely none passes; "unproven" (under 200 trades) is likely for double top /
+bottom and possibly others; zero passes is a valid result and means no signal is sent.
+**Verdict:** pending.
