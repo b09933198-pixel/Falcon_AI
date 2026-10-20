@@ -1,0 +1,85 @@
+F-010 HOLD-OUT RESULT  timeframe 4h  symbols BTCUSDT,ETHUSDT
+window 2021-01-01 00:00 .. 2026-10-01 00:00 UTC (seen once)
+costs: taker 0.060% + slippage 0.020% per side, plus funding
+tests M = 16, alpha = 0.00313 (one-sided), at least 200 trades, win rate >= 60%
+note: registration F-010, code commit 648b6a2
+note: BTCUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7395 events 2020-01-01 00:00 .. 2026-09-30 16:00
+note: ETHUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7395 events 2020-01-01 00:00 .. 2026-09-30 16:00
+note: timeout N = held at most N candles, entry candle included; funding charged for events after the entry open up to the exit candle close
+note: signal skipped when the structural stop is on the wrong side of the entry or a measured-move target is already behind it; trade still open at the end of data is discarded (counts shown per strategy)
+note: win = net R after costs > 0; gate A break-even win rate = (1 + mean cost in R) / 2
+note: squeeze percentile = sorted position int(0.2 x 119) of 120 bandwidths; S05 uses consecutive confirmed pivots; S13 uses the nearest cluster of any kind; trendlines go through pivot wicks
+note: BTC and ETH trades are pooled, trades of different symbols overlap in time, so p-values are somewhat optimistic
+
+Gate A (fixed 1:1, 2 x ATR stop and target, timeout 48)
+  strategy                 trades  long/short   win%  breakeven%  meanR   p_binom   p_t     status
+  S01 Trendline break         632    315/317     45.9      52.7  -0.137   0.9997   0.9997  FAILED
+        at 0.5x costs: win%  45.9  meanR -0.111
+        at 2.0x costs: win%  45.9  meanR -0.191
+        by symbol: BTCUSDT meanR -0.183  ETHUSDT meanR -0.091   skipped: {'busy': 269, 'open_at_end': 4}
+  S05 Double top / bottom     117     61/56      49.6      52.8  -0.064   0.7834   0.7530  UNPROVEN
+        at 0.5x costs: win%  49.6  meanR -0.036
+        at 2.0x costs: win%  49.6  meanR -0.119
+        by symbol: BTCUSDT meanR -0.112  ETHUSDT meanR -0.015   skipped: {'busy': 49}
+  S10 RSI                     556    273/283     49.6      52.1  -0.051   0.8856   0.8873  FAILED
+        at 0.5x costs: win%  49.6  meanR -0.027
+        at 2.0x costs: win%  49.5  meanR -0.098
+        by symbol: BTCUSDT meanR -0.032  ETHUSDT meanR -0.068   skipped: {'busy': 131, 'open_at_end': 4}
+  S12 EMA cross               385    193/192     51.9      52.7  -0.013   0.6314   0.6013  FAILED
+        at 0.5x costs: win%  51.9  meanR +0.013
+        at 2.0x costs: win%  51.9  meanR -0.065
+        by symbol: BTCUSDT meanR +0.067  ETHUSDT meanR -0.086   skipped: {'busy': 40, 'open_at_end': 2}
+  S13 Support / resistance    221    103/118     48.9      52.7  -0.057   0.8842   0.8058  FAILED
+        at 0.5x costs: win%  48.9  meanR -0.030
+        at 2.0x costs: win%  48.9  meanR -0.112
+        by symbol: BTCUSDT meanR -0.172  ETHUSDT meanR +0.066   skipped: {'busy': 237, 'open_at_end': 2}
+  S14 Donchian breakout      1234    652/582     52.2      52.8  -0.010   0.6733   0.6318  FAILED
+        at 0.5x costs: win%  52.2  meanR +0.016
+        at 2.0x costs: win%  52.2  meanR -0.061
+        by symbol: BTCUSDT meanR +0.033  ETHUSDT meanR -0.052   skipped: {'busy': 737, 'open_at_end': 5}
+  S15 Volatility squeeze      532    267/265     50.0      53.1  -0.057   0.9287   0.9071  FAILED
+        at 0.5x costs: win%  50.0  meanR -0.027
+        at 2.0x costs: win%  50.0  meanR -0.117
+        by symbol: BTCUSDT meanR -0.026  ETHUSDT meanR -0.092   skipped: {'busy': 397, 'open_at_end': 2}
+  S16 Liquidity sweep        1072    524/548     49.6      52.4  -0.057   0.9683   0.9707  FAILED
+        at 0.5x costs: win%  49.6  meanR -0.032
+        at 2.0x costs: win%  49.5  meanR -0.108
+        by symbol: BTCUSDT meanR -0.102  ETHUSDT meanR -0.010   skipped: {'busy': 690, 'open_at_end': 7}
+
+Gate B (natural stop and target)
+  strategy                 trades  long/short   win%  breakeven%  meanR   p_binom   p_t     status
+  S01 Trendline break         434    203/231     35.0      52.7  -0.077   1.0000   0.8830  FAILED
+        at 0.5x costs: win%  35.0  meanR -0.049
+        at 2.0x costs: win%  35.0  meanR -0.133
+        by symbol: BTCUSDT meanR -0.100  ETHUSDT meanR -0.054   skipped: {'busy': 460, 'open_at_end': 9}
+  S05 Double top / bottom     106     57/49      58.5      51.7  -0.005   0.0946   0.5272  UNPROVEN
+        at 0.5x costs: win%  58.5  meanR +0.011
+        at 2.0x costs: win%  57.5  meanR -0.039
+        by symbol: BTCUSDT meanR -0.060  ETHUSDT meanR +0.053   skipped: {'busy': 58, 'target_passed': 1, 'open_at_end': 1}
+  S10 RSI                     558    275/283     52.7      52.1  -0.059   0.4098   0.9272  FAILED
+        at 0.5x costs: win%  52.9  meanR -0.036
+        at 2.0x costs: win%  52.2  meanR -0.106
+        by symbol: BTCUSDT meanR -0.023  ETHUSDT meanR -0.093   skipped: {'busy': 131, 'open_at_end': 2}
+  S12 EMA cross               417    209/208     24.0      53.6  +0.302   1.0000   0.0436  FAILED
+        at 0.5x costs: win%  24.5  meanR +0.329
+        at 2.0x costs: win%  23.5  meanR +0.249
+        by symbol: BTCUSDT meanR +0.255  ETHUSDT meanR +0.346   skipped: {'open_at_end': 10}
+  S13 Support / resistance    264    123/141     34.1      54.9  -0.089   1.0000   0.8459  FAILED
+        at 0.5x costs: win%  34.1  meanR -0.039
+        at 2.0x costs: win%  34.1  meanR -0.189
+        by symbol: BTCUSDT meanR -0.222  ETHUSDT meanR +0.050   skipped: {'busy': 196, 'open_at_end': 1}
+  S14 Donchian breakout       450    235/215     40.2      52.0  +0.032   1.0000   0.3007  FAILED
+        at 0.5x costs: win%  40.2  meanR +0.048
+        at 2.0x costs: win%  40.2  meanR +0.001
+        by symbol: BTCUSDT meanR +0.078  ETHUSDT meanR -0.012   skipped: {'busy': 1486, 'open_at_end': 12}
+  S15 Volatility squeeze      485    253/232     34.2      54.2  -0.064   1.0000   0.8423  FAILED
+        at 0.5x costs: win%  34.2  meanR -0.024
+        at 2.0x costs: win%  34.2  meanR -0.145
+        by symbol: BTCUSDT meanR -0.059  ETHUSDT meanR -0.071   skipped: {'busy': 443, 'open_at_end': 3}
+  S16 Liquidity sweep        1316    634/682     34.2      54.4  -0.067   1.0000   0.9572  FAILED
+        at 0.5x costs: win%  34.2  meanR -0.021
+        at 2.0x costs: win%  34.2  meanR -0.159
+        by symbol: BTCUSDT meanR -0.119  ETHUSDT meanR -0.017   skipped: {'busy': 450, 'open_at_end': 6}
+
+PASSED: none
+A strategy not listed under PASSED sends no signal.

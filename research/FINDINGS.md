@@ -480,3 +480,19 @@ trades, a win rate of roughly 64-65% is needed. (3) BTC and ETH are pooled and c
 are somewhat optimistic. (4) Prior: most likely none passes; "unproven" (under 200 trades) is likely for double top /
 bottom and possibly others; zero passes is a valid result and means no signal is sent.
 **Verdict:** pending.
+
+### F-010 verdict (2026-10-21): NOT VALIDATED — no strategy passed
+
+Single look on committed code (commit 648b6a2): 4h built from the 1h archive, BTCUSDT + ETHUSDT, 2021-01-01 to
+2026-09-30, M = 16, alpha = 0.05/16, costs taker 0.06% + slippage 0.02% per side plus funding.
+Result: PASSED: none. Under the registered rule no strategy x gate sends a signal.
+Full table and every trade: research/results/f010_holdout_4h.txt, research/results/f010_trades_4h.csv.
+- Gate A: all eight strategies have mean net R < 0 (from -0.137 to -0.010); win rate 45.9% to 52.2% against a
+  cost-adjusted break-even of about 52-53%. Double top / bottom has 117 trades (gate A) and 106 (gate B): "unproven".
+- Gate B: win rates 24.0% to 58.5%; mean net R positive only for EMA cross (+0.302, 417 trades, win 24.0%, p_t = 0.0436,
+  BTC +0.255, ETH +0.346, +0.249 at 2x costs) and Donchian (+0.032, p_t = 0.30).
+- EMA cross under gate B fails the registered gate (win rate 24.0% < 60%; p = 0.0436 > alpha = 0.003125). It is NOT a
+  result: among 16 tests the chance that at least one has p <= 0.0436 with no edge is about 51%, and the same rule had
+  mean net R = -0.090 on 1h in F-009. Any follow-up needs its own registration (one hypothesis, M = 1) on data that did not
+  exist at the time of this registration.
+No criterion, rule or parameter was changed before or after the run. The 4h look has been used.
