@@ -128,7 +128,8 @@ def main():
         except ValueError as error:
             sys.exit(f"refused: {error}")
 
-        txt = os.path.join(args.out_dir, f"f009_holdout_{timeframe}.txt")
+        tag = reg.lower().replace("-", "")
+        txt = os.path.join(args.out_dir, f"{tag}_holdout_{timeframe}.txt")
 
         if args.holdout and os.path.exists(txt):
             sys.exit(f"refused: the hold-out for {timeframe} was already seen ({txt}); a second look needs a new registration")
@@ -155,7 +156,7 @@ def main():
             if not funding or funding[0][0] > start_ms or funding[0][-1] < end_ms - 8 * 3_600_000:
                 notes.append(f"WARNING: funding data of {symbol} does not cover the whole hold-out window")
 
-        meta = {"timeframe": timeframe, "symbols": list(data), "start_ms": start_ms, "end_ms": end_ms,
+        meta = {"registration": reg, "timeframe": timeframe, "symbols": list(data), "start_ms": start_ms, "end_ms": end_ms,
                 "fee": costs.fee, "slippage": costs.slippage, "tests": tests, "alpha": alpha,
                 "min_trades": config["min_trades"], "min_win": config["min_win_rate"], "notes": notes}
         text = render(results, meta)
@@ -164,7 +165,7 @@ def main():
         with open(txt, "x", encoding="utf-8") as handle:
             handle.write(text + "\n")
 
-        with open(os.path.join(args.out_dir, f"f009_trades_{timeframe}.csv"), "x", encoding="utf-8") as handle:
+        with open(os.path.join(args.out_dir, f"{tag}_trades_{timeframe}.csv"), "x", encoding="utf-8") as handle:
             handle.write(trades_csv(results, tf_ms))
 
         print(text)

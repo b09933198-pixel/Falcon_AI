@@ -67,12 +67,12 @@ def test_holdout_window_pooling_and_report():
     counts = lab.signal_counts("S14", "holdout")
     dev = lab.signal_counts("S14", "dev")
     assert set(counts) == {"BTCUSDT", "ETHUSDT"} and dev["BTCUSDT"] > 0 and counts["BTCUSDT"] > 0
-    meta = {"timeframe": "1h", "symbols": ["BTCUSDT", "ETHUSDT"], "start_ms": start, "end_ms": a[-1].timestamp,
+    meta = {"registration": "F-009", "timeframe": "1h", "symbols": ["BTCUSDT", "ETHUSDT"], "start_ms": start, "end_ms": a[-1].timestamp,
             "fee": 0.0006, "slippage": 0.0002, "tests": 16, "alpha": 0.003125, "min_trades": 200, "min_win": 0.6,
             "notes": ["a note"]}
     text = render(results, meta)
     assert "Gate A" in text and "Gate B" in text and "PASSED: none" in text and "S16 Liquidity sweep" in text
-    assert "alpha = 0.0031" in text and "note: a note" in text
+    assert "F-009 HOLD-OUT RESULT" in text and "alpha = 0.0031" in text and "note: a note" in text
     csv = trades_csv(results, HOUR)
     assert csv.splitlines()[0].startswith("strategy,gate,symbol") and len(csv.splitlines()) == total + 1
 

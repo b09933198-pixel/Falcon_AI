@@ -192,7 +192,7 @@ def render(results: Dict, meta: Dict) -> str:
     """Plain-text report. meta: timeframe, symbols, start_ms, end_ms, alpha, tests, costs, notes."""
 
     lines = [
-        f"F-009 HOLD-OUT RESULT  timeframe {meta['timeframe']}  symbols {','.join(meta['symbols'])}",
+        f"{meta['registration']} HOLD-OUT RESULT  timeframe {meta['timeframe']}  symbols {','.join(meta['symbols'])}",
         f"window {utc(meta['start_ms'])} .. {utc(meta['end_ms'])} UTC (seen once)",
         f"costs: taker {meta['fee'] * 100:.3f}% + slippage {meta['slippage'] * 100:.3f}% per side, plus funding",
         f"tests M = {meta['tests']}, alpha = {meta['alpha']:.5f} (one-sided), at least {meta['min_trades']} trades, win rate >= {meta['min_win'] * 100:.0f}%",
