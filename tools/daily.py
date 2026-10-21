@@ -54,6 +54,14 @@ def run(args):
     return p.returncode, (p.stdout or "") + (p.stderr or "")
 
 
+def safe_send(bot, text):
+    """Telegram problems must never stop data logging or the git commit."""
+    try:
+        bot.send_message(text)
+    except Exception as e:
+        print("Telegram send failed (data is still saved):", e)
+
+
 def main(argv=None, bot=None, runner=run, now=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--git", action="store_true")
@@ -70,14 +78,14 @@ def main(argv=None, bot=None, runner=run, now=None):
         msg = "Falcon: daily run FAILED\n" + (log if not ok else log2)[-1500:]
         print(msg)
         if bot:
-            bot.send_message(msg)
+            safe_send(bot, msg)
         return 1
     text, n = build_message(log, now)
     print(text)
     if bot:
         if n == 0:
             text = "Falcon: run finished but no risk sheet was found in the output.\n" + log[-1500:]
-        bot.send_message(text)
+        safe_send(bot, text)
     if args.git:
         for cmd in (["add", "research/forward"],
                     ["commit", "-q", "-m", "Forward sheets %s" % now.strftime("%Y-%m-%d")]):

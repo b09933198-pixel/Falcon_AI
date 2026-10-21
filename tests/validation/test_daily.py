@@ -83,3 +83,10 @@ def test_main_failure_alerts_and_stops():
 def test_missing_done_marker_is_failure():
     bot = Bot()
     assert main([], bot, lambda a: (0, "no marker"), NOW) == 1
+
+
+def test_telegram_failure_is_not_fatal():
+    class Broken:
+        def send_message(self, t):
+            raise RuntimeError("no route")
+    assert main([], Broken(), lambda a: (0, LOG), NOW) == 0
