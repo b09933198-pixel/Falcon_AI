@@ -496,3 +496,32 @@ Full table and every trade: research/results/f010_holdout_4h.txt, research/resul
   mean net R = -0.090 on 1h in F-009. Any follow-up needs its own registration (one hypothesis, M = 1) on data that did not
   exist at the time of this registration.
 No criterion, rule or parameter was changed before or after the run. The 4h look has been used.
+
+### F-011 pre-registration (2026-10-22): EMA cross, gate B, 4h, on assets not used to select it
+
+Why: in F-010 the S12 EMA cross (gate B, 4h) had mean net R +0.302 over 417 trades (BTC, ETH, 2021-01-01..2026-09-30)
+but failed its registered gate (p_t = 0.0436, win rate 24.0%). It was 1 of 16 rows, so it may be chance. A live forward
+test on two assets cannot decide it: about 70 trades per year and a per-trade standard deviation of about 3.6 R mean
+roughly 900 trades are needed.
+Hypothesis (single, M = 1): the rules of S12 gate B exactly as in docs/STRATEGIES_F009.md and the committed code in
+src/lab, unchanged, have mean net R > 0 after costs on 4h candles of other liquid USDT pairs.
+Data: Binance spot 1h archive, 4h built as in F-010, 2021-01-01..2026-09-30, one look. Symbols fixed now, before any data
+was downloaded or run: BNBUSDT, XRPUSDT, ADAUSDT, DOGEUSDT, SOLUSDT, LTCUSDT, LINKUSDT, TRXUSDT, DOTUSDT, AVAXUSDT
+(large, long-listed pairs, chosen without looking at any result). A symbol may be dropped only for data reasons (missing
+months, no funding data), decided before the results table is read, and every drop is disclosed.
+Costs, gate and everything else: config/lab_f011.json, identical to config/lab_f010.json except for the symbols.
+Command (one look, no second run): python tools/run_lab.py --holdout --config config/lab_f011.json --registration F-011
+Pass rule, read from the row "S12 EMA cross, Gate B" only; all four must hold:
+ 1. at least 200 trades;
+ 2. mean net R > 0 and one-sided p_t < 0.01 (stricter than 0.05 because the symbols move together, so the effective
+    sample is smaller than the trade count);
+ 3. mean net R > 0 for at least 70% of the symbols;
+ 4. mean net R at 2x costs still > 0.
+All other rows of the output are exploratory: printed, no claim, no signal, no follow-up. The "PASSED:" line printed by
+the lab uses the F-010 family rule and is NOT the F-011 criterion.
+Changed on purpose for this hypothesis: the 60% win-rate rule of F-009/F-010 is replaced by expectancy (owner delegated
+the decision on 2026-10-21; the win rate is displayed with every signal).
+Limit: 2021-2026 is the period in which the rule was found, so a pass shows only that the rule is not specific to
+BTC/ETH, not that it works in other regimes; an out-of-time test (2017-2020) needs its own registration.
+Consequence: pass -> the rule becomes a candidate for live signals (win rate and expectancy shown) plus live confirmation
+on all symbols. Fail -> EMA cross is dropped; no re-tuning of periods, stops or timeframes on this data.
