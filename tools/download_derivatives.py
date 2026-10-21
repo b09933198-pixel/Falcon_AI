@@ -55,6 +55,8 @@ def tasks_for(symbol, store, today):
         if month == 13:
             year, month = year + 1, 1
 
+    if os.environ.get("FALCON_FUNDING_ONLY"):
+        return out
     day = METRICS_START.get(symbol, DEFAULT_METRICS_START)
 
     while day < today:
