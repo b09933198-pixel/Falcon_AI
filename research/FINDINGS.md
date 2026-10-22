@@ -566,3 +566,14 @@ Pass rule, read from the row "S12 EMA cross, Gate B" only; all four must hold:
 All other rows are exploratory: printed, no claim. The "PASSED:" line printed by the lab is not the F-012 criterion.
 Consequence: pass (together with F-011) -> the rule is a candidate for live signals with win rate and expectancy shown, plus
 live confirmation. Fail -> EMA cross is dropped; no re-tuning of periods, stops, timeframes or symbols on this data.
+
+#### F-012 amendment 1 (2026-10-23, before the run; no result had been produced or seen)
+
+The first attempt stopped while loading data: HistoryError "Misaligned candles in BTCUSDT 1h at 1518321600000". No result file was
+written and nothing was computed. Cause: 172 one-hour candles in history_old.db are off the hourly grid (43 each for BNBUSDT,
+BTCUSDT, ETHUSDT, LTCUSDT, between 2018-02-09 09:28 and 2018-02-11 03:28 UTC, shifted by 28 min 14 s in the Binance archive).
+Fix: the lab loader now drops candles whose open time is not a multiple of the interval (src/lab/runner.py: drop_off_grid) and
+the series splits at the resulting gap, like any other gap. On the 2021-2026 database there are no such candles and the loaded
+series are identical to before (checked for BTC, ETH, SOL, DOGE), so F-009, F-010 and F-011 are unaffected.
+The first on-grid candle after the shifted run (2018-02-11 04:00 UTC) has an open equal to the previous close, so it covers an
+irregular period; it is kept (4 candles in total) and disclosed here. No criterion, rule, symbol or cost was changed.

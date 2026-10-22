@@ -29,6 +29,7 @@ from src.lab.runner import (  # noqa: E402
 )
 from src.lab.strategies import NAMES, STRATEGIES  # noqa: E402
 from src.market.timeframe import interval_to_ms  # noqa: E402
+from src.lab.runner import drop_off_grid  # noqa: E402
 
 NOTES = [
     "timeout N = held at most N candles, entry candle included; funding charged for events after the entry open up to the exit candle close",
@@ -63,7 +64,7 @@ def load(config, timeframe):
 
     with CandleRepository(config.get("history_db")) as repo, DerivativesStore() as deriv:
         for symbol in config["symbols"]:
-            raw = [c for segment in repo.segments(symbol, "1h") for c in segment]
+            raw = drop_off_grid(repo.get_candles(symbol, "1h"), 3_600_000)
             if config.get("holdout_end_utc"):
                 cut = parse_utc(config["holdout_end_utc"])
                 raw = [c for c in raw if c.timestamp < cut]

@@ -246,3 +246,12 @@ def trades_csv(results: Dict, tf_ms: int) -> str:
                 repr(t.stop_distance), repr(t.gross_r), repr(t.cost_r), repr(t.net_r), t.reason)))
 
     return "\n".join(out) + "\n"
+
+
+def drop_off_grid(candles: Sequence[Candle], step_ms: int) -> List[Candle]:
+    """Drop candles whose open time is not a multiple of the interval.
+
+    A few hours of the 2018 Binance archive are shifted by 28 min 14 s; they are excluded and the
+    series is split at the resulting gap like any other gap.
+    """
+    return [c for c in candles if c.timestamp % step_ms == 0]
