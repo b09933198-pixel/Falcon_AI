@@ -1,0 +1,12 @@
+{
+  "symbols": ["BTCUSDT", "ETHUSDT", "BNBUSDT", "XRPUSDT", "ADAUSDT", "LTCUSDT", "TRXUSDT", "LINKUSDT", "DOGEUSDT"],
+  "timeframes": ["4h"],
+  "holdout_start_utc": "2017-01-01 00:00",
+  "holdout_end_utc": "2021-01-01 00:00",
+  "history_db": "data/history/history_old.db",
+  "taker_fee": 0.0006,
+  "slippage": 0.0002,
+  "family_alpha": 0.05,
+  "min_trades": 200,
+  "min_win_rate": 0.60
+}

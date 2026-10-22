@@ -541,3 +541,28 @@ was met exactly at the threshold; the per-trade distribution is heavy-tailed (wi
 all other rows (gate A etc.) are exploratory and carry no claim. This is a candidate, not a validated edge.
 Next: out-of-time test 2017-2020 (own registration) and live forward logging. Signals are allowed only in "forward-test
 mode": logged with a timestamp before the outcome is known, labelled unconfirmed, with win rate and expectancy shown.
+
+### F-012 pre-registration (2026-10-22): EMA cross, gate B, 4h, out of time (before 2021)
+
+Why: F-011 passed on 10 other symbols but in the same period (2021-2026) in which the rule was found, so it did not test
+another market regime. This test uses only data from before 2021, which played no part in finding or checking the rule.
+Hypothesis (single, M = 1): S12 gate B exactly as in docs/STRATEGIES_F009.md and the committed code in src/lab, unchanged
+(only the data source and an end date are configurable), has mean net R > 0 after costs on 4h candles before 2021-01-01.
+Data: Binance spot 1h archive, 4h built as in F-010, from the first available month (2017-08) to 2020-12-31, into a separate
+database data/history/history_old.db. Symbols fixed now, before any data was downloaded or run: BTCUSDT, ETHUSDT, BNBUSDT,
+XRPUSDT, ADAUSDT, LTCUSDT, TRXUSDT, LINKUSDT, DOGEUSDT (all have more than one year of spot data before 2021; DOT, SOL and
+AVAX are left out because they were listed only in the second half of 2020). A symbol may be dropped only for data reasons,
+decided before the results table is read, and every drop is disclosed.
+Costs and everything else: config/lab_f012.json, same costs as F-010 and F-011 (plus history_db and holdout_end_utc).
+Command (one look, no second run): python tools/run_lab.py --holdout --config config/lab_f012.json --registration F-012
+Known weakness: funding-rate data exists only from 2020, so before that funding is not charged. This favours long trades in
+rising markets. To compensate, the bar for mean net R is raised from "> 0" (F-011) to ">= +0.10" (about the size of the
+funding drag over a typical holding period).
+Pass rule, read from the row "S12 EMA cross, Gate B" only; all four must hold:
+ 1. at least 200 trades;
+ 2. mean net R >= +0.10 and one-sided p_t < 0.01;
+ 3. mean net R > 0 for at least 7 of the 9 symbols;
+ 4. mean net R at 2x costs still > 0.
+All other rows are exploratory: printed, no claim. The "PASSED:" line printed by the lab is not the F-012 criterion.
+Consequence: pass (together with F-011) -> the rule is a candidate for live signals with win rate and expectancy shown, plus
+live confirmation. Fail -> EMA cross is dropped; no re-tuning of periods, stops, timeframes or symbols on this data.
