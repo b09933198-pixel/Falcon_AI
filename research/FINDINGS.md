@@ -577,3 +577,16 @@ the series splits at the resulting gap, like any other gap. On the 2021-2026 dat
 series are identical to before (checked for BTC, ETH, SOL, DOGE), so F-009, F-010 and F-011 are unaffected.
 The first on-grid candle after the shifted run (2018-02-11 04:00 UTC) has an open equal to the previous close, so it covers an
 irregular period; it is kept (4 candles in total) and disclosed here. No criterion, rule, symbol or cost was changed.
+
+### F-012 verdict (2026-10-23): NOT VALIDATED - the EMA cross failed out of time
+
+One look on committed code and config (929db30, config/lab_f012.json): 9 symbols, 4h built from 1h, 2017-08..2020-12-31,
+amendment 1 applied (off-grid candles dropped). Files: research/results/f012_holdout_4h.txt, f012_trades_4h.csv.
+Row "S12 EMA cross", gate B: 503 trades, win rate 18.7%, mean net R -0.153, one-sided p_t = 0.9251; -0.136 at 0.5x costs and
+-0.188 at 2x costs; positive in only 2 of 9 symbols (BTC +0.129, ADA +0.030).
+Registered rule: at least 200 trades - met; mean net R >= +0.10 and p_t < 0.01 - not met; >0 in at least 7 of 9 symbols - not
+met (2 of 9); >0 at 2x costs - not met. Result: FAILED. Funding was not charged before 2020, which favours the rule; the result
+is negative anyway.
+Taken together: F-011 (2021-2026, 10 symbols) mean net R +0.236, F-012 (2017-2020, 9 symbols) mean net R -0.153. The sign
+reverses between periods, so the EMA cross is not a validated edge. Per the registration it is dropped: no signal, no
+re-tuning of periods, stops, timeframes or symbols on this data. The pre-2021 look has been used.
