@@ -161,4 +161,5 @@ def main():
     print("DONE")
 
 
-main()
+if __name__ == "__main__":
+    main()
