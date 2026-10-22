@@ -61,9 +61,12 @@ def load(config, timeframe):
     tf_ms = interval_to_ms(timeframe)
     data = {}
 
-    with CandleRepository() as repo, DerivativesStore() as deriv:
+    with CandleRepository(config.get("history_db")) as repo, DerivativesStore() as deriv:
         for symbol in config["symbols"]:
             raw = [c for segment in repo.segments(symbol, "1h") for c in segment]
+            if config.get("holdout_end_utc"):
+                cut = parse_utc(config["holdout_end_utc"])
+                raw = [c for c in raw if c.timestamp < cut]
             merged = []
 
             for segment in split_contiguous(raw, 3_600_000):

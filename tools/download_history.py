@@ -17,10 +17,10 @@ import zipfile
 from datetime import datetime, timezone
 
 BASE = "https://data.binance.vision/data/spot/monthly/klines"
-DB_PATH = os.path.join("data", "history", "history.db")
+DB_PATH = os.environ.get("FALCON_HISTORY_DB") or os.path.join("data", "history", "history.db")
 DEFAULT_SYMBOLS = ["BTCUSDT", "ETHUSDT"]
 DEFAULT_INTERVALS = ["15m", "1h", "4h", "1d"]
-START = (2021, 1)
+START = tuple(int(x) for x in os.environ.get("FALCON_HISTORY_START", "2021-01").split("-"))
 STEP_MS = {
     "1m": 60000, "5m": 300000, "15m": 900000, "30m": 1800000,
     "1h": 3600000, "2h": 7200000, "4h": 14400000, "1d": 86400000,
@@ -50,6 +50,8 @@ CREATE TABLE IF NOT EXISTS downloaded (
 def months():
     now = datetime.now(timezone.utc)
     last = (now.year, now.month - 1) if now.month > 1 else (now.year - 1, 12)
+    if os.environ.get("FALCON_HISTORY_END"):
+        last = tuple(int(x) for x in os.environ["FALCON_HISTORY_END"].split("-"))
     y, m = START
     while (y, m) <= last:
         yield f"{y:04d}-{m:02d}"
