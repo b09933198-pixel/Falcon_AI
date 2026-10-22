@@ -525,3 +525,19 @@ Limit: 2021-2026 is the period in which the rule was found, so a pass shows only
 BTC/ETH, not that it works in other regimes; an out-of-time test (2017-2020) needs its own registration.
 Consequence: pass -> the rule becomes a candidate for live signals (win rate and expectancy shown) plus live confirmation
 on all symbols. Fail -> EMA cross is dropped; no re-tuning of periods, stops or timeframes on this data.
+
+### F-011 verdict (2026-10-22): PASSED the registered rule (candidate, not confirmed)
+
+One look on committed code and config (35a51f5, 3c7b512): 10 symbols, 4h built from 1h, 2021-01-01..2026-09-30, costs and
+funding as in F-010. Files: research/results/f011_holdout_4h.txt, research/results/f011_trades_4h.csv.
+Row "S12 EMA cross", gate B: 2088 trades, win rate 25.3%, mean net R +0.236, one-sided p_t = 0.0046; mean net R +0.258 at
+0.5x costs and +0.192 at 2x costs; positive in 7 of 10 symbols (BNB +0.268, XRP +0.361, ADA +0.288, DOGE +0.751, SOL +0.472,
+LINK +0.251, AVAX +0.282; negative: LTC -0.161, TRX -0.014, DOT -0.002).
+Registered rule (all four): at least 200 trades - met; mean net R > 0 and p_t < 0.01 - met; at least 70% of symbols positive -
+met exactly (7 of 10); mean net R > 0 at 2x costs - met.
+The lab's own "PASSED: none" line uses the F-010 family rule (win rate >= 60%) and is not the F-011 criterion, as registered.
+Limits, unchanged by this result: same 2021-2026 period in which the rule was found; the symbols are correlated; the 70% condition
+was met exactly at the threshold; the per-trade distribution is heavy-tailed (win rate 25%), so the t-test is approximate;
+all other rows (gate A etc.) are exploratory and carry no claim. This is a candidate, not a validated edge.
+Next: out-of-time test 2017-2020 (own registration) and live forward logging. Signals are allowed only in "forward-test
+mode": logged with a timestamp before the outcome is known, labelled unconfirmed, with win rate and expectancy shown.

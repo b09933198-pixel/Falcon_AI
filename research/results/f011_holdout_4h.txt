@@ -1,0 +1,93 @@
+F-011 HOLD-OUT RESULT  timeframe 4h  symbols BNBUSDT,XRPUSDT,ADAUSDT,DOGEUSDT,SOLUSDT,LTCUSDT,LINKUSDT,TRXUSDT,DOTUSDT,AVAXUSDT
+window 2021-01-01 00:00 .. 2026-10-01 00:00 UTC (seen once)
+costs: taker 0.060% + slippage 0.020% per side, plus funding
+tests M = 16, alpha = 0.00313 (one-sided), at least 200 trades, win rate >= 60%
+note: registration F-011, code commit 21d1f93
+note: BNBUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7274 events 2020-02-10 08:00 .. 2026-09-30 16:00
+note: XRPUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7379 events 2020-01-06 08:00 .. 2026-09-30 16:00
+note: ADAUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7339 events 2020-01-19 16:00 .. 2026-09-30 16:00
+note: DOGEUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 6821 events 2020-07-10 08:00 .. 2026-09-30 16:00
+note: SOLUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 6700 events 2020-09-13 16:00 .. 2026-09-30 16:00
+note: LTCUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7370 events 2020-01-09 08:00 .. 2026-09-30 16:00
+note: LINKUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7346 events 2020-01-17 08:00 .. 2026-09-30 16:00
+note: TRXUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 7352 events 2020-01-15 08:00 .. 2026-09-30 16:00
+note: DOTUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 6698 events 2020-08-20 08:00 .. 2026-09-30 16:00
+note: AVAXUSDT: 12585 candles in 8 segment(s), 2021-01-01 00:00 .. 2026-09-30 20:00, hold-out candles 12585; funding 6598 events 2020-09-22 16:00 .. 2026-09-30 16:00
+note: timeout N = held at most N candles, entry candle included; funding charged for events after the entry open up to the exit candle close
+note: signal skipped when the structural stop is on the wrong side of the entry or a measured-move target is already behind it; trade still open at the end of data is discarded (counts shown per strategy)
+note: win = net R after costs > 0; gate A break-even win rate = (1 + mean cost in R) / 2
+note: squeeze percentile = sorted position int(0.2 x 119) of 120 bandwidths; S05 uses consecutive confirmed pivots; S13 uses the nearest cluster of any kind; trendlines go through pivot wicks
+note: BTC and ETH trades are pooled, trades of different symbols overlap in time, so p-values are somewhat optimistic
+
+Gate A (fixed 1:1, 2 x ATR stop and target, timeout 48)
+  strategy                 trades  long/short   win%  breakeven%  meanR   p_binom   p_t     status
+  S01 Trendline break        3073   1464/1609    53.0      52.1  +0.019   0.1517   0.1488  FAILED
+        at 0.5x costs: win%  53.1  meanR +0.039
+        at 2.0x costs: win%  52.8  meanR -0.023
+        by symbol: BNBUSDT meanR +0.014  XRPUSDT meanR +0.092  ADAUSDT meanR +0.051  DOGEUSDT meanR +0.045  SOLUSDT meanR +0.009  LTCUSDT meanR -0.005  LINKUSDT meanR +0.098  TRXUSDT meanR -0.155  DOTUSDT meanR -0.026  AVAXUSDT meanR +0.067   skipped: {'busy': 1288, 'no_next_candle': 1, 'open_at_end': 22}
+  S05 Double top / bottom     536    302/234     49.6      52.2  -0.048   0.8929   0.8666  FAILED
+        at 0.5x costs: win%  49.6  meanR -0.027
+        at 2.0x costs: win%  49.6  meanR -0.089
+        by symbol: BNBUSDT meanR -0.092  XRPUSDT meanR +0.160  ADAUSDT meanR -0.094  DOGEUSDT meanR +0.026  SOLUSDT meanR +0.072  LTCUSDT meanR -0.144  LINKUSDT meanR +0.077  TRXUSDT meanR -0.115  DOTUSDT meanR -0.102  AVAXUSDT meanR -0.170   skipped: {'busy': 201, 'open_at_end': 5}
+  S10 RSI                    2749   1334/1415    48.8      51.6  -0.057   0.9986   0.9987  FAILED
+        at 0.5x costs: win%  48.8  meanR -0.038
+        at 2.0x costs: win%  48.6  meanR -0.094
+        by symbol: BNBUSDT meanR +0.026  XRPUSDT meanR +0.002  ADAUSDT meanR -0.136  DOGEUSDT meanR -0.076  SOLUSDT meanR -0.096  LTCUSDT meanR -0.033  LINKUSDT meanR +0.009  TRXUSDT meanR -0.044  DOTUSDT meanR -0.077  AVAXUSDT meanR -0.127   skipped: {'busy': 611, 'no_next_candle': 2, 'open_at_end': 21}
+  S12 EMA cross              1840    930/910     53.3      52.3  +0.017   0.2034   0.2324  FAILED
+        at 0.5x costs: win%  53.3  meanR +0.039
+        at 2.0x costs: win%  53.2  meanR -0.027
+        by symbol: BNBUSDT meanR -0.040  XRPUSDT meanR +0.028  ADAUSDT meanR +0.115  DOGEUSDT meanR -0.012  SOLUSDT meanR +0.182  LTCUSDT meanR -0.041  LINKUSDT meanR +0.021  TRXUSDT meanR -0.094  DOTUSDT meanR +0.019  AVAXUSDT meanR +0.012   skipped: {'busy': 274, 'open_at_end': 6}
+  S13 Support / resistance    949    494/455     49.0      52.1  -0.056   0.9736   0.9594  FAILED
+        at 0.5x costs: win%  49.0  meanR -0.035
+        at 2.0x costs: win%  49.0  meanR -0.098
+        by symbol: BNBUSDT meanR -0.029  XRPUSDT meanR -0.171  ADAUSDT meanR +0.095  DOGEUSDT meanR -0.036  SOLUSDT meanR -0.011  LTCUSDT meanR -0.122  LINKUSDT meanR +0.003  TRXUSDT meanR -0.119  DOTUSDT meanR -0.112  AVAXUSDT meanR -0.017   skipped: {'busy': 1030, 'open_at_end': 7}
+  S14 Donchian breakout      6160   3288/2872    52.3      52.3  +0.001   0.5053   0.4738  FAILED
+        at 0.5x costs: win%  52.3  meanR +0.021
+        at 2.0x costs: win%  52.2  meanR -0.040
+        by symbol: BNBUSDT meanR -0.022  XRPUSDT meanR +0.007  ADAUSDT meanR +0.052  DOGEUSDT meanR +0.013  SOLUSDT meanR +0.021  LTCUSDT meanR -0.046  LINKUSDT meanR -0.018  TRXUSDT meanR -0.071  DOTUSDT meanR +0.047  AVAXUSDT meanR +0.029   skipped: {'busy': 4140, 'open_at_end': 26}
+  S15 Volatility squeeze     2462   1148/1314    52.4      52.5  -0.000   0.5372   0.5082  FAILED
+        at 0.5x costs: win%  52.4  meanR +0.023
+        at 2.0x costs: win%  52.4  meanR -0.047
+        by symbol: BNBUSDT meanR -0.045  XRPUSDT meanR +0.011  ADAUSDT meanR -0.009  DOGEUSDT meanR +0.048  SOLUSDT meanR +0.019  LTCUSDT meanR -0.076  LINKUSDT meanR +0.009  TRXUSDT meanR -0.080  DOTUSDT meanR +0.054  AVAXUSDT meanR +0.071   skipped: {'busy': 1831, 'open_at_end': 4}
+  S16 Liquidity sweep        5117   2452/2665    49.1      51.8  -0.057   1.0000   1.0000  FAILED
+        at 0.5x costs: win%  49.1  meanR -0.037
+        at 2.0x costs: win%  49.0  meanR -0.096
+        by symbol: BNBUSDT meanR -0.097  XRPUSDT meanR -0.086  ADAUSDT meanR -0.079  DOGEUSDT meanR -0.069  SOLUSDT meanR -0.078  LTCUSDT meanR +0.002  LINKUSDT meanR -0.030  TRXUSDT meanR -0.045  DOTUSDT meanR -0.013  AVAXUSDT meanR -0.078   skipped: {'busy': 3373, 'no_next_candle': 3, 'open_at_end': 16}
+
+Gate B (natural stop and target)
+  strategy                 trades  long/short   win%  breakeven%  meanR   p_binom   p_t     status
+  S01 Trendline break        2095    989/1106    38.6      52.0  +0.044   1.0000   0.0718  FAILED
+        at 0.5x costs: win%  38.7  meanR +0.065
+        at 2.0x costs: win%  38.5  meanR +0.003
+        by symbol: BNBUSDT meanR +0.003  XRPUSDT meanR -0.031  ADAUSDT meanR +0.050  DOGEUSDT meanR +0.103  SOLUSDT meanR +0.180  LTCUSDT meanR +0.053  LINKUSDT meanR +0.077  TRXUSDT meanR +0.039  DOTUSDT meanR -0.071  AVAXUSDT meanR +0.038   skipped: {'busy': 2242, 'no_next_candle': 1, 'open_at_end': 31}
+  S05 Double top / bottom     468    256/212     59.6      51.3  +0.003   0.0002   0.4669  FAILED
+        at 0.5x costs: win%  59.6  meanR +0.016
+        at 2.0x costs: win%  59.2  meanR -0.022
+        by symbol: BNBUSDT meanR -0.163  XRPUSDT meanR +0.260  ADAUSDT meanR -0.117  DOGEUSDT meanR +0.062  SOLUSDT meanR +0.085  LTCUSDT meanR -0.138  LINKUSDT meanR +0.019  TRXUSDT meanR +0.119  DOTUSDT meanR +0.036  AVAXUSDT meanR -0.055   skipped: {'busy': 253, 'target_passed': 9, 'open_at_end': 8}
+  S10 RSI                    2751   1333/1418    52.3      51.6  -0.077   0.2339   1.0000  FAILED
+        at 0.5x costs: win%  52.4  meanR -0.058
+        at 2.0x costs: win%  52.1  meanR -0.114
+        by symbol: BNBUSDT meanR -0.063  XRPUSDT meanR -0.059  ADAUSDT meanR -0.135  DOGEUSDT meanR -0.098  SOLUSDT meanR -0.083  LTCUSDT meanR -0.059  LINKUSDT meanR -0.031  TRXUSDT meanR -0.053  DOTUSDT meanR -0.086  AVAXUSDT meanR -0.098   skipped: {'busy': 614, 'no_next_candle': 2, 'open_at_end': 17}
+  S12 EMA cross              2088   1042/1046    25.3      53.1  +0.236   1.0000   0.0046  FAILED
+        at 0.5x costs: win%  25.5  meanR +0.258
+        at 2.0x costs: win%  24.6  meanR +0.192
+        by symbol: BNBUSDT meanR +0.268  XRPUSDT meanR +0.361  ADAUSDT meanR +0.288  DOGEUSDT meanR +0.751  SOLUSDT meanR +0.472  LTCUSDT meanR -0.161  LINKUSDT meanR +0.251  TRXUSDT meanR -0.014  DOTUSDT meanR -0.002  AVAXUSDT meanR +0.282   skipped: {'open_at_end': 33}
+  S13 Support / resistance   1121    595/526     33.2      53.8  -0.086   1.0000   0.9799  FAILED
+        at 0.5x costs: win%  33.2  meanR -0.048
+        at 2.0x costs: win%  33.2  meanR -0.162
+        by symbol: BNBUSDT meanR -0.026  XRPUSDT meanR -0.186  ADAUSDT meanR +0.201  DOGEUSDT meanR -0.187  SOLUSDT meanR -0.060  LTCUSDT meanR -0.190  LINKUSDT meanR -0.049  TRXUSDT meanR -0.074  DOTUSDT meanR -0.251  AVAXUSDT meanR -0.007   skipped: {'busy': 862, 'open_at_end': 5}
+  S14 Donchian breakout      2239   1157/1082    41.9      51.7  +0.099   1.0000   0.0002  FAILED
+        at 0.5x costs: win%  41.9  meanR +0.112
+        at 2.0x costs: win%  41.8  meanR +0.074
+        by symbol: BNBUSDT meanR +0.075  XRPUSDT meanR +0.103  ADAUSDT meanR +0.114  DOGEUSDT meanR +0.182  SOLUSDT meanR +0.116  LTCUSDT meanR +0.017  LINKUSDT meanR +0.113  TRXUSDT meanR +0.105  DOTUSDT meanR -0.019  AVAXUSDT meanR +0.191   skipped: {'busy': 7917, 'open_at_end': 55}
+  S15 Volatility squeeze     2212   1048/1164    37.2      53.3  +0.042   1.0000   0.0869  FAILED
+        at 0.5x costs: win%  37.2  meanR +0.072
+        at 2.0x costs: win%  37.2  meanR -0.019
+        by symbol: BNBUSDT meanR -0.049  XRPUSDT meanR +0.085  ADAUSDT meanR +0.034  DOGEUSDT meanR +0.168  SOLUSDT meanR +0.044  LTCUSDT meanR -0.131  LINKUSDT meanR -0.060  TRXUSDT meanR +0.039  DOTUSDT meanR +0.207  AVAXUSDT meanR +0.093   skipped: {'busy': 2082, 'open_at_end': 5}
+  S16 Liquidity sweep        6360   3128/3232    32.5      53.5  -0.101   1.0000   1.0000  FAILED
+        at 0.5x costs: win%  32.5  meanR -0.064
+        at 2.0x costs: win%  32.5  meanR -0.174
+        by symbol: BNBUSDT meanR -0.176  XRPUSDT meanR -0.066  ADAUSDT meanR -0.111  DOGEUSDT meanR -0.099  SOLUSDT meanR -0.126  LTCUSDT meanR -0.053  LINKUSDT meanR -0.128  TRXUSDT meanR -0.074  DOTUSDT meanR -0.071  AVAXUSDT meanR -0.093   skipped: {'busy': 2131, 'no_next_candle': 3, 'open_at_end': 17}
+
+PASSED: none
+A strategy not listed under PASSED sends no signal.
