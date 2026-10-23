@@ -1,0 +1,40 @@
+EXPLORATORY diagnostic, run after the F-013 verdict; not a registered criterion.
+Rise = highest spot high between entry and exit divided by the entry open, minus 1 (loss of the short leg per unit of N).
+A short collateralised 1:1 is liquidated at a rise of roughly 90-100%; spot is used as a stand-in for the perpetual.
+trades in the file: 263, with price data: 255, skipped (no spot data at the entry): 8
+
+ALL        n= 255  median    8.6%  p90  132.3%  max 1150.2%  >=30%: 32.2%  >=50%: 25.1%  >=90%: 13.3%
+
+by calendar year of the entry:
+2020       n=  86  median    7.3%  p90  109.9%  max 1150.2%  >=30%: 24.4%  >=50%: 20.9%  >=90%: 10.5%
+2021       n= 108  median    8.0%  p90  198.2%  max  672.7%  >=30%: 36.1%  >=50%: 27.8%  >=90%: 15.7%
+2023       n=  19  median   18.2%  p90  124.2%  max  238.7%  >=30%: 42.1%  >=50%: 31.6%  >=90%: 10.5%
+2024       n=  42  median   14.5%  p90  108.5%  max  372.3%  >=30%: 33.3%  >=50%: 23.8%  >=90%: 14.3%
+
+by symbol:
+ADA        n=  17  median   17.2%  p90  233.2%  max  263.8%  >=30%: 41.2%  >=50%: 41.2%  >=90%: 29.4%
+AVAX       n=  21  median    8.2%  p90  238.7%  max  291.9%  >=30%: 42.9%  >=50%: 33.3%  >=90%: 19.0%
+BNB        n=  54  median    3.4%  p90   26.8%  max  231.5%  >=30%:  9.3%  >=50%:  3.7%  >=90%:  3.7%
+BTC        n=  13  median   21.8%  p90   39.3%  max  206.9%  >=30%: 30.8%  >=50%:  7.7%  >=90%:  7.7%
+DOGE       n=  23  median   14.6%  p90  168.4%  max 1150.2%  >=30%: 34.8%  >=50%: 30.4%  >=90%: 17.4%
+DOT        n=   9  median   44.4%  p90   86.6%  max   86.6%  >=30%: 55.6%  >=50%: 44.4%  >=90%:  0.0%
+ETH        n=  12  median   38.9%  p90   87.6%  max  268.5%  >=30%: 58.3%  >=50%: 41.7%  >=90%:  8.3%
+LINK       n=  28  median    6.7%  p90   76.5%  max  229.9%  >=30%: 21.4%  >=50%: 17.9%  >=90%:  7.1%
+LTC        n=  18  median   31.6%  p90  155.9%  max  233.7%  >=30%: 50.0%  >=50%: 44.4%  >=90%: 11.1%
+SOL        n=  15  median    6.5%  p90  417.6%  max  588.9%  >=30%: 33.3%  >=50%: 33.3%  >=90%: 33.3%
+TRX        n=  27  median    5.8%  p90  120.2%  max  198.2%  >=30%: 33.3%  >=50%: 22.2%  >=90%: 14.8%
+XRP        n=  18  median   18.3%  p90  228.2%  max  372.3%  >=30%: 44.4%  >=50%: 38.9%  >=90%: 22.2%
+
+the 12 largest rises (symbol, entry, rise, net return on capital of the trade):
+  DOGEUSDT  2020-11-20 16:00  rise 1150.2%  trade return +3.07%
+  DOGEUSDT  2021-03-09 08:00  rise  672.7%  trade return +6.01%
+  SOLUSDT   2021-08-08 16:00  rise  588.9%  trade return +3.14%
+  SOLUSDT   2021-01-25 08:00  rise  417.6%  trade return +4.51%
+  XRPUSDT   2024-11-12 08:00  rise  372.3%  trade return +0.69%
+  SOLUSDT   2021-02-26 00:00  rise  321.3%  trade return +6.07%
+  AVAXUSDT  2021-08-08 16:00  rise  291.9%  trade return +1.81%
+  ETHUSDT   2020-10-22 00:00  rise  268.5%  trade return +6.41%
+  ADAUSDT   2020-10-22 16:00  rise  263.8%  trade return +4.82%
+  AVAXUSDT  2021-09-10 08:00  rise  247.9%  trade return +2.30%
+  AVAXUSDT  2023-11-11 00:00  rise  238.7%  trade return +1.97%
+  LTCUSDT   2020-10-23 08:00  rise  233.7%  trade return +5.33%

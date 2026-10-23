@@ -643,3 +643,13 @@ symbols, not a return on one capital) and 2024 (48); 2022 had 4 trades, 2023 had
 2026; (3) funding income only: the spot / perpetual price difference, liquidation of the short leg in sharp rallies (which coincide
 with high funding), transfer costs and exchange risk are not modelled and are the main risks.
 Consequence per registration: Falcon gets a funding-opportunity monitor (no directional signal) that prints these risks.
+
+#### F-013 exploratory note (2026-10-23, after the verdict; not a criterion)
+
+Tool tools/carry_risk.py (commit fec5a6e), result research/results/f013_risk_exploratory.txt. For the 255 of 263 trades with spot
+data: highest spot rise between entry and exit: median 8.6%, p90 132%, maximum 1150% (DOGE, 2020-11); 25.1% of the trades saw a
+rise of at least 50% and 13.3% at least 90%, the level at which a short perpetual collateralised 1:1 is liquidated. High funding and
+strong rallies coincide. The verdict's "worst trade -0.49% of capital" therefore describes funding income only. With fixed up-front
+collateral the capital needed to survive large rises makes the return on capital much smaller (rough arithmetic: collateral for a
+132% rise gives about 14% per year, for a 1150% rise about 2-3%). Unified/portfolio margin or active margin management changes
+this and is outside the tested rule. The F-013 verdict stands unchanged as a statement about funding income.
