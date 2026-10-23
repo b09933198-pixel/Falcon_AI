@@ -628,3 +628,18 @@ Condition 4 assigns a trade to the calendar year of its exit time. A trade still
 funding event, counted as a trade and labelled "end". Funding rates are used as stored (fractions per event, as in the Binance
 file); events with a 4h interval are used as given. The code is src/lab/carry.py and tools/run_carry.py; the run refuses uncommitted
 changes, a missing registration and a second look. No threshold or rule was changed.
+
+### F-013 verdict (2026-10-23): PASSED the registered rule (funding income only; not a trading result)
+
+One look on committed code and config (8716dc0): 12 symbols, funding events 2020-01..2026-09-30. Files:
+research/results/f013_carry.txt, research/results/f013_trades.csv.
+263 trades; time-weighted net return on capital while invested +16.10% per year (+13.32% at 2x costs); pooled net P&L positive
+in 5 of 5 calendar years with at least 5 trades (2020, 2021, 2023, 2024, 2025); no trade lost more than 0.5% of capital (worst
+-0.49%). All five registered conditions were met.
+What the result does not say: (1) the rule held a position only 14-30% of the time per symbol (mean about 24%), so the return on
+capital that must stay allocated is lower, roughly 4% per year if idle capital earns nothing (rough arithmetic, not a registered
+figure); (2) trades are concentrated in 2020-2021 (198 of 263; the pooled +197.7% of 2021 is the sum of 114 trades over 12
+symbols, not a return on one capital) and 2024 (48); 2022 had 4 trades, 2023 had 8 (+0.56%), 2025 had 5, and no trade exited in
+2026; (3) funding income only: the spot / perpetual price difference, liquidation of the short leg in sharp rallies (which coincide
+with high funding), transfer costs and exchange risk are not modelled and are the main risks.
+Consequence per registration: Falcon gets a funding-opportunity monitor (no directional signal) that prints these risks.

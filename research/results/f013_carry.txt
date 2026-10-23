@@ -1,0 +1,37 @@
+F-013 funding carry, code commit 8716dc0
+costs: round trip 0.40% of N, capital = 2.0 x N, entry D7 >= 0.00045/day, exit D3 <= 0.00015/day, max hold 90 days
+
+symbol     events  first .. last                      trades  days   time%  annual%  mean funding/trade%
+BTCUSDT      7395  2020-01-01 00:00 .. 2026-09-30 16:00      13   641   26.0   +13.90  +4.156
+ETHUSDT      7395  2020-01-01 00:00 .. 2026-09-30 16:00      12   730   29.6   +16.29  +5.826
+BNBUSDT      7274  2020-02-10 08:00 .. 2026-09-30 16:00      54   345   14.2   +10.58  +0.770
+XRPUSDT      7379  2020-01-06 08:00 .. 2026-09-30 16:00      18   692   28.1   +19.14  +4.431
+ADAUSDT      7339  2020-01-19 16:00 .. 2026-09-30 16:00      17   671   27.4   +18.06  +4.304
+DOGEUSDT     6821  2020-07-10 08:00 .. 2026-09-30 16:00      23   521   22.9   +16.23  +2.413
+SOLUSDT      6700  2020-09-13 16:00 .. 2026-09-30 16:00      18   533   24.1   +13.58  +2.602
+LTCUSDT      7370  2020-01-09 08:00 .. 2026-09-30 16:00      18   672   27.3   +17.77  +4.033
+LINKUSDT     7346  2020-01-17 08:00 .. 2026-09-30 16:00      28   650   26.5   +16.12  +2.450
+TRXUSDT      7352  2020-01-15 08:00 .. 2026-09-30 16:00      27   492   20.1   +14.39  +1.837
+DOTUSDT      6698  2020-08-20 08:00 .. 2026-09-30 16:00      11   500   22.4   +18.87  +5.097
+AVAXUSDT     6598  2020-09-22 16:00 .. 2026-09-30 16:00      24   467   21.2   +14.67  +1.964
+
+by calendar year of the exit (trades, pooled net return on capital):
+  2020:   84 trades  +47.70%
+  2021:  114 trades  +197.73%
+  2022:    4 trades  +6.32%
+  2023:    8 trades  +0.56%
+  2024:   48 trades  +46.40%
+  2025:    5 trades  +6.07%
+exit reasons: max_hold 28, rate 235
+all trades: 263, mean net return on capital per trade +1.159%, worst -0.49%, best +12.10%
+
+REGISTERED CONDITIONS
+  PASS  1. trades >= 60: 263
+  PASS  2. net return on capital while invested >= 8% per year: +16.10%
+  PASS  3. same at 2x costs >= 5% per year: +13.32%
+  PASS  4. years with pooled net P&L > 0 >= 70% (of years with >= 5 trades): 5 of 5
+  PASS  5. trades losing more than 0.5% of capital <= 10%: 0.0%
+
+RESULT: PASSED all five conditions
+
+Not modelled (so not tested): spot / perpetual price difference at entry, exit and in between; liquidation of the short leg in a sharp rally; transfer and borrowing costs; exchange risk of two venues; taxes; whether spot and perpetual of every symbol trade on one venue at these costs. A pass is a statement about funding income only.
