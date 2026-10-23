@@ -590,3 +590,34 @@ is negative anyway.
 Taken together: F-011 (2021-2026, 10 symbols) mean net R +0.236, F-012 (2017-2020, 9 symbols) mean net R -0.153. The sign
 reverses between periods, so the EMA cross is not a validated edge. Per the registration it is dropped: no signal, no
 re-tuning of periods, stops, timeframes or symbols on this data. The pre-2021 look has been used.
+
+### F-013 pre-registration (2026-10-23): funding-rate carry (delta neutral), not a directional test
+
+Why: F-001..F-012 found no validated directional edge. This is the one non-directional hypothesis with a structural source of
+return: a long spot / short perpetual position of equal size collects the perpetual funding rate without taking price direction.
+Claim (single, M = 1): the on/off rule R below, applied per symbol to the historical funding events, earns after costs a
+return above a risk-free hurdle, consistently over time. Funding events from data/history/derivatives.db only; no look at any
+funding statistics was made before this registration.
+Rule R (per symbol, independent): D7(t) = sum of funding rates of the events in (t - 7 days, t] divided by 7; D3(t) likewise
+with 3 days. Enter after the event at time t when D7(t) >= 0.00045 per day (1.5x the usual 0.01% per 8h baseline, times 3 per day);
+the position then collects every later event. Exit after the event at time t when D3(t) <= 0.00015 per day (half the baseline),
+or after 90 days, or at the end of the data; the event of the exit time is collected. After an exit the next entry is possible
+from the next event on. Events with other intervals (4h) are used as given.
+P&L per trade, in % of the position size N: sum of the collected funding rates minus the round-trip cost 0.40% of N (spot taker
+0.10% + slippage 0.02% per side, perpetual taker 0.06% + slippage 0.02% per side, both legs, entry and exit). Capital is
+2.0 x N (spot N plus perpetual collateral N, i.e. no leverage on the perpetual). Return on capital = P&L / 2.
+Config: config/carry_f013.json. Command (one look, no second run): python tools/run_carry.py --config config/carry_f013.json --registration F-013
+Pass rule (all five must hold), pooled over the 12 symbols BTCUSDT, ETHUSDT, BNBUSDT, XRPUSDT, ADAUSDT, DOGEUSDT, SOLUSDT,
+LTCUSDT, LINKUSDT, TRXUSDT, DOTUSDT, AVAXUSDT, from the first funding event of each symbol to 2026-09-30:
+ 1. at least 60 completed trades;
+ 2. time-weighted net return on capital while invested >= 8% per year;
+ 3. the same at 2x costs (0.80% round trip) >= 5% per year;
+ 4. positive pooled net P&L in at least 70% of the calendar years that contain at least 5 trades;
+ 5. at most 10% of the trades lose more than 0.5% of capital.
+Not modelled (and so not tested): the price difference (basis) between spot and perpetual at entry, exit and in between;
+liquidation of the short leg in a sharp rally; transfer and borrowing costs; the exchange risk of two venues; taxes; whether the
+spot and the perpetual of every symbol can be traded on the same venue at these costs. A pass is therefore a statement about the
+funding income only.
+Scale (for the reader, not a criterion): at 8-20% per year on capital, 1,000 USD earns 80-200 USD per year before the risks above.
+Consequence: pass -> Falcon gets a funding-opportunity monitor (no directional signal), with these risks printed. Fail -> the
+search for profit is closed with a written conclusion; Falcon stays a risk-sheet and test tool.

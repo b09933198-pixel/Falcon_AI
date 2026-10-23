@@ -1,0 +1,17 @@
+{
+  "symbols": ["BTCUSDT", "ETHUSDT", "BNBUSDT", "XRPUSDT", "ADAUSDT", "DOGEUSDT", "SOLUSDT", "LTCUSDT", "LINKUSDT", "TRXUSDT", "DOTUSDT", "AVAXUSDT"],
+  "entry_window_days": 7,
+  "entry_daily_rate": 0.00045,
+  "exit_window_days": 3,
+  "exit_daily_rate": 0.00015,
+  "max_hold_days": 90,
+  "round_trip_cost": 0.004,
+  "capital_factor": 2.0,
+  "min_trades": 60,
+  "min_annual_return": 0.08,
+  "min_annual_return_2x_costs": 0.05,
+  "min_year_trades": 5,
+  "min_positive_year_share": 0.7,
+  "bad_trade_loss": 0.005,
+  "max_bad_trade_share": 0.10
+}
