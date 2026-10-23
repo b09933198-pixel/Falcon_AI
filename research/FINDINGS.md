@@ -621,3 +621,10 @@ funding income only.
 Scale (for the reader, not a criterion): at 8-20% per year on capital, 1,000 USD earns 80-200 USD per year before the risks above.
 Consequence: pass -> Falcon gets a funding-opportunity monitor (no directional signal), with these risks printed. Fail -> the
 search for profit is closed with a written conclusion; Falcon stays a risk-sheet and test tool.
+
+#### F-013 clarification 1 (2026-10-23, before the run; no funding statistic had been looked at)
+
+Condition 4 assigns a trade to the calendar year of its exit time. A trade still open at the end of the data is closed at the last
+funding event, counted as a trade and labelled "end". Funding rates are used as stored (fractions per event, as in the Binance
+file); events with a 4h interval are used as given. The code is src/lab/carry.py and tools/run_carry.py; the run refuses uncommitted
+changes, a missing registration and a second look. No threshold or rule was changed.
