@@ -61,8 +61,17 @@ def reply(command, bot, runner, log_path, now, root):
         files = sorted(glob.glob(os.path.join(root, "research", "forward", "**", "*.csv"), recursive=True))
         if not files:
             bot.send_message("فایلی پیدا نشد؛ ابتدا ثبت روزانه را اجرا کنید.")
+        failed = []
         for path in files:
-            bot.send_document(path, os.path.basename(path))
+            for attempt in (1, 2):
+                try:
+                    bot.send_document(path, os.path.basename(path))
+                    break
+                except TelegramError:
+                    if attempt == 2:
+                        failed.append(os.path.basename(path))
+        if failed:
+            bot.send_message("ارسال این فایل‌ها ناموفق بود: " + ", ".join(failed) + " (دوباره /excel بزنید)")
     else:
         bot.send_message(HELP_FA)
 

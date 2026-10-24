@@ -131,3 +131,34 @@ def test_telegram_failure_returns_error_without_touching_offset(tmp_path):
     off = tmp_path / "off"
     assert tool.main([], Down([]), lambda a: "", NOW, str(off), str(tmp_path / "log"), str(tmp_path)) == 1
     assert not off.exists()
+
+
+def test_excel_retries_a_failed_file_and_reports_persistent_failure(tmp_path):
+    tool = load_tool()
+    from src.notify.telegram import TelegramError
+    folder = tmp_path / "research" / "forward"
+    folder.mkdir(parents=True)
+    (folder / "a.csv").write_text("x\n")
+    (folder / "b.csv").write_text("x\n")
+
+    class Flaky(Bot):
+        def __init__(self, updates, bad):
+            super().__init__(updates)
+            self.bad = bad
+            self.tries = {}
+
+        def send_document(self, path, caption=""):
+            name = os.path.basename(path)
+            self.tries[name] = self.tries.get(name, 0) + 1
+            if name == "a.csv" and self.tries[name] == 1:
+                raise TelegramError("once")
+            if name in self.bad:
+                raise TelegramError("always")
+            self.docs.append(name)
+
+    bot = Flaky([upd(1, "/excel")], bad=())
+    tool.main([], bot, lambda a: "", NOW, str(tmp_path / "off"), str(tmp_path / "log"), str(tmp_path))
+    assert bot.docs == ["a.csv", "b.csv"] and bot.sent == []
+    bot2 = Flaky([upd(2, "/excel")], bad=("b.csv",))
+    tool.main([], bot2, lambda a: "", NOW, str(tmp_path / "off2"), str(tmp_path / "log"), str(tmp_path))
+    assert bot2.docs == ["a.csv"] and "b.csv" in bot2.sent[0] and bot2.tries["b.csv"] == 2
